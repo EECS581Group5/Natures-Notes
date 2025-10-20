@@ -16,8 +16,12 @@ function Weather() {
     }
 
     try {
-      const response = await fetch(`https://natures-notes.vercel.app/api/remote_weather_api?lat=${lat}&lon=${lon}`);
-
+      //replace with this line when vercel is deployed
+      //const response = await fetch(`https://natures-notes.vercel.app/api/remote_weather_api?lat=${lat}&lon=${lon}`);
+      const key = process.env.REACT_APP_WEATHER_KEY;
+      const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=metric`
+    );
       const data = await response.json();
 
       if (response.ok) {
