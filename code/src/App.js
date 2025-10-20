@@ -1,18 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
-
-import UserForm from './UserForm';
+import Weather from './Weather';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo}
+         className="App-logo" alt="logo" />
         <p>
           Nature Notes is coming soon!
           
         </p>
-        <UserForm />
+        <Weather />
         <br></br>
         <a
           className="App-link"
