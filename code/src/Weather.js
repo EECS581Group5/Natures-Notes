@@ -16,7 +16,7 @@ function Weather() {
     }
 
     try {
-      const response = await fetch(`/api/weather?lat=${lat}&lon=${lon}`);
+      const response = await fetch(`https://natures-notes.vercel.app/api/weather?lat=${lat}&lon=${lon}`);
 
       const data = await response.json();
 
