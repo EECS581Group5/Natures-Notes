@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import MyButton from './Button';
 
+import UserForm from './UserForm';
 
 function App() {
   return (
@@ -12,7 +12,8 @@ function App() {
           Nature Notes is coming soon!
           
         </p>
-        <MyButton />
+        <UserForm />
+        <br></br>
         <a
           className="App-link"
           href="https://reactjs.org"
