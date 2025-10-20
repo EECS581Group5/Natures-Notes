@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import MyButton from './Button';
+
 
 function App() {
   return (
@@ -7,8 +9,10 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Nature Notes is coming soon!
+          
         </p>
+        <MyButton />
         <a
           className="App-link"
           href="https://reactjs.org"
