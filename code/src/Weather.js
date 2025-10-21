@@ -1,66 +1,155 @@
 import { useState } from "react";
+import "./Weather.css";
 
 function Weather() {
+  const [mode, setMode] = useState("city");
+  const [city, setCity] = useState("");
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
   const [weather, setWeather] = useState(null);
-
-
+  const [loading, setLoading] = useState(false);
 
   async function getWeather(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    const key = process.env.REACT_APP_WEATHER_KEY;
+    let url = "";
 
-    if (!lat || !lon) {
-      alert("Please enter both latitude and longitude");
+    // Decide based on selected mode
+    if (mode === "city" && city.trim()) {
+      url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
+    } else if (mode === "coords" && lat && lon) {
+      url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=metric`;
+    } else if (mode === "current") {
+      await getLocationWeather();
+      return;
+    } else {
+      alert("Please fill in the required fields.");
       return;
     }
 
-    try {
-      //replace with this line when vercel is deployed
-      //const response = await fetch(`https://natures-notes.vercel.app/api/remote_weather_api?lat=${lat}&lon=${lon}`);
-      const key = process.env.REACT_APP_WEATHER_KEY;
-      const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=metric`
-    );
-      const data = await response.json();
+    await fetchWeather(url);
+  }
 
-      if (response.ok) {
-        setWeather(data);
-      } else {
+  async function fetchWeather(url) {
+    setLoading(true);
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("Weather data:", data);
+
+      if (response.ok) setWeather(data);
+      else {
         setWeather(null);
         alert(`Error: ${data.message}`);
       }
     } catch (error) {
       console.error("Error fetching weather:", error);
       alert("Failed to fetch weather. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
-  return (
-    <div>
-      <form onSubmit={getWeather}>
-        <input
-          type="text"
-          placeholder="Latitude"
-          value={lat}
-          onChange={(e) => setLat(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Longitude"
-          value={lon}
-          onChange={(e) => setLon(e.target.value)}
-        />
-        <button type="submit">Get Weather</button>
-      </form>
+  // 🌍 Get current location
+  async function getLocationWeather() {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
 
-      {weather && weather.main ? (
-        <div>
-          <h2>{weather.name || "Location"}</h2>
-          <p>{weather.main.temp} °C</p>
-          <p>{weather.weather[0].description}</p>
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        console.log("Detected location:", lat, lon);
+
+        const key = process.env.REACT_APP_WEATHER_KEY;
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=metric`;
+        await fetchWeather(url);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        alert("Unable to retrieve your location.");
+        setLoading(false);
+      }
+    );
+  }
+
+  return (
+    <div className="weather-container">
+      <h2>Weather Finder</h2>
+
+      {/* Tabs */}
+      <div className="tabs">
+        <button
+          className={mode === "city" ? "active" : ""}
+          onClick={() => setMode("city")}
+        >
+          By <br></br>City
+        </button>
+        <button
+          className={mode === "coords" ? "active" : ""}
+          onClick={() => setMode("coords")}
+        >
+          By <br></br>Coordinates
+        </button>
+        <button
+          className={mode === "current" ? "active" : ""}
+          onClick={() => setMode("current")}
+        >
+          Use Current Location
+        </button>
+      </div>
+
+      {/* Form */}
+      {mode !== "current" && (
+        <form onSubmit={getWeather} className="form">
+          {mode === "city" ? (
+            <input
+              type="text"
+              placeholder="Enter city name"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          ) : (
+            <>
+              <input
+                type="text"
+                placeholder="Latitude"
+                value={lat}
+                onChange={(e) => setLat(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Longitude"
+                value={lon}
+                onChange={(e) => setLon(e.target.value)}
+              />
+            </>
+          )}
+          <button type="submit">Get Weather</button>
+        </form>
+      )}
+
+      {/* “Current Location” Mode Button */}
+      {mode === "current" && (
+        <div className="form">
+          <button onClick={getWeather}>Detect My Location 🌍</button>
         </div>
-      ) : null}
+      )}
+
+      {/* Loading Indicator */}
+      {loading && <p>Loading...</p>}
+
+      {/* Result */}
+      {weather && weather.main && !loading && (
+        <div className="result">
+          <h3>{weather.name || "Location"}</h3>
+          <p>{weather.main.temp} °C</p>
+          <p className="desc">{weather.weather[0].description}</p>
+        </div>
+      )}
     </div>
   );
 }
