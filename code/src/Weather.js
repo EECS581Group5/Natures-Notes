@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Weather.css";
+import Music from "./Music";
 
 function Weather() {
   const [mode, setMode] = useState("city");
@@ -77,79 +78,86 @@ function Weather() {
   }
 
   return (
-    <div className="weather-container">
-      <h2>Weather Finder</h2>
+    <div className="weather-app-container"> {/* New wrapping div */}
+      <div className="weather-container">
+        <h2>Weather Finder</h2>
 
-      {/* Tabs */}
-      <div className="tabs">
-        <button
-          className={mode === "city" ? "active" : ""}
-          onClick={() => setMode("city")}
-        >
-          By <br></br>City
-        </button>
-        <button
-          className={mode === "coords" ? "active" : ""}
-          onClick={() => setMode("coords")}
-        >
-          By <br></br>Coordinates
-        </button>
-        <button
-          className={mode === "current" ? "active" : ""}
-          onClick={() => setMode("current")}
-        >
-          Use Current Location
-        </button>
+        {/* Tabs */}
+        <div className="tabs">
+          <button
+            className={mode === "city" ? "active" : ""}
+            onClick={() => setMode("city")}
+          >
+            By <br></br>City
+          </button>
+          <button
+            className={mode === "coords" ? "active" : ""}
+            onClick={() => setMode("coords")}
+          >
+            By <br></br>Coordinates
+          </button>
+          <button
+            className={mode === "current" ? "active" : ""}
+            onClick={() => setMode("current")}
+          >
+            Use Current Location
+          </button>
+        </div>
+
+        {/* Form */}
+        {mode !== "current" && (
+          <form onSubmit={getWeather} className="form">
+            {mode === "city" ? (
+              <input
+                type="text"
+                placeholder="Enter city name"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            ) : (
+              <>
+                <input
+                  type="text"
+                  placeholder="Latitude"
+                  value={lat}
+                  onChange={(e) => setLat(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Longitude"
+                  value={lon}
+                  onChange={(e) => setLon(e.target.value)}
+                />
+              </>
+            )}
+            <button type="submit">Get Weather</button>
+          </form>
+        )}
+
+        {/* “Current Location” Mode Button */}
+        {mode === "current" && (
+          <div className="form">
+            <button onClick={getWeather}>Detect My Location 🌍</button>
+          </div>
+        )}
+
+        {/* Loading Indicator */}
+        {loading && <p>Loading...</p>}
+
+        {/* Result */}
+        {weather && weather.main && !loading && (
+          <div className="result">
+            <h3>{weather.name || "Location"}</h3>
+            <p>{(Math.round(weather.main.temp * (9/5) + 32))}° F</p>
+            <p className="desc">{weather.weather[0].description}</p>
+          </div>
+        )}
       </div>
 
-      {/* Form */}
-      {mode !== "current" && (
-        <form onSubmit={getWeather} className="form">
-          {mode === "city" ? (
-            <input
-              type="text"
-              placeholder="Enter city name"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-          ) : (
-            <>
-              <input
-                type="text"
-                placeholder="Latitude"
-                value={lat}
-                onChange={(e) => setLat(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Longitude"
-                value={lon}
-                onChange={(e) => setLon(e.target.value)}
-              />
-            </>
-          )}
-          <button type="submit">Get Weather</button>
-        </form>
-      )}
-
-      {/* “Current Location” Mode Button */}
-      {mode === "current" && (
-        <div className="form">
-          <button onClick={getWeather}>Detect My Location 🌍</button>
-        </div>
-      )}
-
-      {/* Loading Indicator */}
-      {loading && <p>Loading...</p>}
-
-      {/* Result */}
-      {weather && weather.main && !loading && (
-        <div className="result">
-          <h3>{weather.name || "Location"}</h3>
-          <p>{(Math.round(weather.main.temp * (9/5) + 32))}° F</p>
-          <p className="desc">{weather.weather[0].description}</p>
-        </div>
-      )}
+      {/* Integration of Music component */}
+      <div className="music-container">
+        <Music weather={weather} />
+      </div>
     </div>
   );
 }

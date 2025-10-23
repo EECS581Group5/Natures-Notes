@@ -3,6 +3,9 @@
 #.env
 .env
 
+# auto generated music map
+musicMap.js
+
 # dependencies
 /node_modules
 /.pnp
