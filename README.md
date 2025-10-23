@@ -1,2 +1,2 @@
-# Natures-Notes
+# NatureNotes
 Notes from nature
