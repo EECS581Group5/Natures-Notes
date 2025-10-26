@@ -1,10 +1,18 @@
+.weather-app-container {
+  margin: 0 auto;
+}
+
 .weather-container {
-  max-width: 400px;
   margin: 5px auto;
-  padding: 5px;
-  border-radius: 12px;
+  padding: 10px;
+  border-radius: 5px;
   text-align: center;
   font-family: sans-serif;
+  border: 3px solid #FAF1DF;
+  width: 500px;
+  float: left;
+  background: #81C784;
+  margin-right: 100px;
 }
 
 .tabs {
@@ -70,5 +78,4 @@
 
 .desc {
   text-transform: capitalize;
-  color: #ffffff;
 }

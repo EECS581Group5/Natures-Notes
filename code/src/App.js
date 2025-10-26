@@ -1,27 +1,24 @@
-import logo from './logo.svg';
+import logo from './nature_logo.png';
 import './App.css';
 import Weather from './Weather';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <div id="top-banner">
         <img src={logo}
          className="App-logo" alt="logo" />
         <p>
           Nature Notes is coming soon!
           
         </p>
+        </div>
+        <div class="clear"></div>
+      
+      <header className="App-header">
+        
         <Weather />
         <br></br>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
