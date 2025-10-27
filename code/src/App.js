@@ -1,26 +1,31 @@
-import logo from './nature_logo.png';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import Home from './components/Home';
 import './App.css';
-import Weather from './Weather';
 
 function App() {
   return (
-    <div className="App">
-      <div id="top-banner">
-        <img src={logo}
-         className="App-logo" alt="logo" />
-        <p>
-          Nature Notes is coming soon!
-          
-        </p>
-        </div>
-        <div class="clear"></div>
-      
-      <header className="App-header">
-        
-        <Weather />
-        <br></br>
-      </header>
-    </div>
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </Router>
   );
 }
 
