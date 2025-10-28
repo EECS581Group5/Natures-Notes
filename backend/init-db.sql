@@ -26,3 +26,16 @@ CREATE TABLE IF NOT EXISTS notes (
 -- Create indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_notes_created_at ON notes(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_notes_user_id ON notes(user_id);
+
+-- Create user_recent_locations table to store up to 3 most recent locations per user
+CREATE TABLE IF NOT EXISTS user_recent_locations (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  latitude DECIMAL(10, 8) NOT NULL,
+  longitude DECIMAL(11, 8) NOT NULL,
+  accessed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Index for efficiently querying recent locations per user
+CREATE INDEX IF NOT EXISTS idx_user_recent_locations_user_time
+  ON user_recent_locations(user_id, accessed_at DESC);
