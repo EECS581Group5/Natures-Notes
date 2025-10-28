@@ -20,6 +20,7 @@ function Login() {
 
     try {
       const data = await loginService(email, password);
+      console.log('Login successful:', data);
       login(data.token, data.user);
       navigate('/');
     } catch (err) {
@@ -27,6 +28,19 @@ function Login() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGuestLogin = () => {
+    // simulate a guest user with minimal data
+    const guestUser = {
+      id: 'guest',
+      username: 'Guest',
+      email: null,
+      role: 'guest',
+    };
+
+    login('guest-token', guestUser);
+    navigate('/');
   };
 
   return (
@@ -72,9 +86,14 @@ function Login() {
         <p className="auth-footer">
           Don't have an account? <Link to="/signup">Sign up</Link>
         </p>
+
+        <p className="guest-link">
+          <span onClick={handleGuestLogin}>Continue as Guest</span>
+        </p>
       </div>
     </div>
   );
 }
 
 export default Login;
+

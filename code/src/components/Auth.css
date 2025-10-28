@@ -125,3 +125,17 @@
 .auth-footer a:hover {
   text-decoration: underline;
 }
+.guest-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+}
+.guest-link span {
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 600;
+}
+.guest-link span:hover {
+  text-decoration: underline;
+}
