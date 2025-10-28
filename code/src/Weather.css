@@ -15,6 +15,17 @@
   margin-right: 100px;
 }
 
+.music-container {
+  margin: 5px auto;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-family: sans-serif;
+  border: 3px solid #FAF1DF;
+  float: left;
+  background: #81C784;
+}
+
 .tabs {
   display: flex;
   justify-content: space-between;
