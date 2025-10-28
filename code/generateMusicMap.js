@@ -13,7 +13,7 @@ const WEATHER_MAPPING = {
     'cloudy': ['Clouds'],
     'minesweeper': ['Minesweeper'] // Easter egg
     // Not currently supported:
-    // 'hazy': ['Haze', 'Fog', 'Sand', 'Dust']
+    // 'hazy': ['Haze', 'Fog']
     // 'smoky': ['Smoke', 'Ash']
     // 'sandy': ['Sand', 'Dust']
     // 'stormy': ['Thunderstorm', 'Squall', 'Tornado']
@@ -76,9 +76,9 @@ function generateMusicMap() {
     }
     
     // c. Add Default
-    if (musicData['Sunny'] && musicData['Sunny'].length > 0) {
-        const defaultTracks = musicData['Sunny'].map(p => `require('${p}')`).join(', ');
-        fileContent += `  'default': [${defaultTracks}], // Fallback to sunny\n`;
+    if (musicData['minesweeper'] && musicData['minesweeper'].length > 0) {
+        const defaultTracks = musicData['minesweeper'].map(p => `require('${p}')`).join(', ');
+        fileContent += `  'default': [${defaultTracks}], // Fallback to Minesweeper\n`;
     } else {
         fileContent += `  'default': [],\n`;
     }
