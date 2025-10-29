@@ -212,6 +212,70 @@ app.delete('/api/notes/:id', authenticateToken, async (req, res) => {
   }
 });
 
+// Recent Locations API routes (protected)
+// Get user's recent locations (up to 3 most recent)
+app.get('/api/locations/recent', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id, latitude, longitude, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
+      [req.user.userId]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching recent locations:', error);
+    res.status(500).json({ error: 'Failed to fetch recent locations' });
+  }
+});
+
+// Add or update a recent location
+app.post('/api/locations/recent', authenticateToken, async (req, res) => {
+  try {
+    const { latitude, longitude } = req.body;
+
+    // Validate input
+    if (latitude === undefined || longitude === undefined) {
+      return res.status(400).json({ error: 'Latitude and longitude are required' });
+    }
+
+    // Validate coordinate ranges
+    if (latitude < -90 || latitude > 90) {
+      return res.status(400).json({ error: 'Latitude must be between -90 and 90' });
+    }
+    if (longitude < -180 || longitude > 180) {
+      return res.status(400).json({ error: 'Longitude must be between -180 and 180' });
+    }
+
+    // Insert new location
+    await pool.query(
+      'INSERT INTO user_recent_locations (user_id, latitude, longitude, accessed_at) VALUES ($1, $2, $3, NOW())',
+      [req.user.userId, latitude, longitude]
+    );
+
+    // Delete locations beyond the 3 most recent
+    await pool.query(
+      `DELETE FROM user_recent_locations
+       WHERE id IN (
+         SELECT id FROM user_recent_locations
+         WHERE user_id = $1
+         ORDER BY accessed_at DESC
+         OFFSET 3
+       )`,
+      [req.user.userId]
+    );
+
+    // Fetch and return the updated recent locations
+    const result = await pool.query(
+      'SELECT id, latitude, longitude, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
+      [req.user.userId]
+    );
+
+    res.status(201).json(result.rows);
+  } catch (error) {
+    console.error('Error adding recent location:', error);
+    res.status(500).json({ error: 'Failed to add recent location' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
