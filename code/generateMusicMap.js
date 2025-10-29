@@ -11,11 +11,11 @@ const WEATHER_MAPPING = {
     'rainy': ['Rain', 'Drizzle', 'Thunderstorm', 'Mist'], // Move Thunderstorm to stormy when supported
     'snowy': ['Snow'],
     'cloudy': ['Clouds'],
+    'sandy': ['Sand', 'Dust'],
+    'hazy': ['Haze', 'Fog'],
     'minesweeper': ['Minesweeper'] // Easter egg
     // Not currently supported:
-    // 'hazy': ['Haze', 'Fog']
     // 'smoky': ['Smoke', 'Ash']
-    // 'sandy': ['Sand', 'Dust']
     // 'stormy': ['Thunderstorm', 'Squall', 'Tornado']
 };
 
