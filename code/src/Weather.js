@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Weather.css";
 import Music from "./Music";
+import { addLocation } from './services/locationService';
 
 function Weather() {
   const [mode, setMode] = useState("city");
@@ -32,24 +33,37 @@ function Weather() {
   }
 
   async function fetchWeather(url) {
-    setLoading(true);
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Weather data:", data);
+  setLoading(true);
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log("Weather data:", data);
 
-      if (response.ok) setWeather(data);
-      else {
-        setWeather(null);
-        alert(`Error: ${data.message}`);
+    if (response.ok) {
+      setWeather(data);
+
+      // ✅ Save location (only if we have valid coordinates)
+      if (data.coord && data.coord.lat && data.coord.lon) {
+        try {
+          await addLocation(data.coord.lat, data.coord.lon);
+          console.log("Location saved:", data.coord);
+        } catch (err) {
+          console.error("Error saving location:", err);
+        }
       }
-    } catch (error) {
-      console.error("Error fetching weather:", error);
-      alert("Failed to fetch weather. Please try again.");
-    } finally {
-      setLoading(false);
+
+    } else {
+      setWeather(null);
+      alert(`Error: ${data.message}`);
     }
+  } catch (error) {
+    console.error("Error fetching weather:", error);
+    alert("Failed to fetch weather. Please try again.");
+  } finally {
+    setLoading(false);
   }
+}
+
 
   // 🌍 Get current location
   async function getLocationWeather() {

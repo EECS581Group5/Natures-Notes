@@ -214,7 +214,7 @@ app.delete('/api/notes/:id', authenticateToken, async (req, res) => {
 
 // Recent Locations API routes (protected)
 // Get user's recent locations (up to 3 most recent)
-app.get('/api/locations/recent', authenticateToken, async (req, res) => {
+app.get('/api/locations', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
       'SELECT id, latitude, longitude, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
@@ -228,7 +228,7 @@ app.get('/api/locations/recent', authenticateToken, async (req, res) => {
 });
 
 // Add or update a recent location
-app.post('/api/locations/recent', authenticateToken, async (req, res) => {
+app.post('/api/locations', authenticateToken, async (req, res) => {
   try {
     const { latitude, longitude } = req.body;
 
