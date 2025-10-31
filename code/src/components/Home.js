@@ -34,7 +34,6 @@ function Home() {
     <div className="App">
       <div id="top-banner">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Nature Notes is coming soon!</p>
       </div>
       
       <div className='guestLogOut'>
