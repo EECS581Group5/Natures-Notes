@@ -89,4 +89,10 @@
 
 .desc {
   text-transform: capitalize;
+  margin-top: 0;
+}
+
+.Location{
+  font-weight: bold;
+  margin: 0;
 }

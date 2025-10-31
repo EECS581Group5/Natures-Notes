@@ -161,7 +161,7 @@ function Weather() {
         {/* Result */}
         {weather && weather.main && !loading && (
           <div className="result">
-            <h3>{weather.name || "Location"}</h3>
+            <p className="Location">{weather.name || "Location"}</p>
             <p className="desc">{(Math.round(weather.main.temp * (9/5) + 32))}° F
             <br />{weather.weather[0].description}</p>
           </div>
