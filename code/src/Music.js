@@ -183,9 +183,9 @@ const handlePause = () => {
 
   return (
     <div className="music-player">
-      <h3>🎶 Weather Music Player 🎶</h3>
-      <p>Weather: {weather.weather[0].main}</p>
-      <p>Now Playing: {getTrackName(currentTrack)}</p>
+      <h2>🎶 Weather Music Player 🎶</h2>
+      <p>Weather: {weather.weather[0].main}<br />
+      Now Playing: {getTrackName(currentTrack)}</p>
 
       <audio 
         ref={audioRef} 

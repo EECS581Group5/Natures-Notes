@@ -94,7 +94,7 @@ function Weather() {
   return (
     <div className="weather-app-container"> {/* New wrapping div */}
       <div className="weather-container">
-        <h2>Weather Finder</h2>
+        <h2>🌦️ Weather Finder 🌦️</h2>
 
         {/* Tabs */}
         <div className="tabs">
