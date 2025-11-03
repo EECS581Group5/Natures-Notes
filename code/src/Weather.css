@@ -43,7 +43,7 @@
 }
 
 .tabs button.active {
-  background: #4287f5;
+  background: #0c5dde;
   color: white;
   border-radius: 6px 6px 0 0;
 }
@@ -71,7 +71,7 @@
   margin-top: 10px;
   border: none;
   border-radius: 6px;
-  background: #4287f5;
+  background: #0c5dde;
   color: white;
   font-weight: bold;
   cursor: pointer;

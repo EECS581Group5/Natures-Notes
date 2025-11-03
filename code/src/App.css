@@ -39,7 +39,7 @@ body {
 #top-banner {
 
   /* background: tan; */
-  padding-bottom: 5px;
+  padding-bottom: 50px;
   text-align: left;
   width: 1025px;
   margin: 0 auto;
@@ -70,8 +70,9 @@ body {
   text-align: center;
   padding: 10px;
   border-radius: 5px;
-  border: 3px solid #FAF1DF;
-  width: 500px;
+  border: 3px solid #2E7D32;
+  width: 300px;
   font-family: sans-serif;
-  margin: 0 auto;
+  margin: 20px;
+  float: right;
 }

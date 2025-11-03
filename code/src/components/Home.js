@@ -34,7 +34,7 @@ function Home() {
     <div className="App">
       <div id="top-banner">
         <img src={logo} className="App-logo" alt="logo" />
-      </div>
+      
       
       <div className='guestLogOut'>
       {user && (
@@ -46,7 +46,7 @@ function Home() {
             onClick={handleLogout}
             style={{
               padding: '8px 16px',
-              background: '#ff4444',
+              background: '#0c5dde',
               color: 'white',
               border: 'none',
               borderRadius: '6px',
@@ -58,6 +58,7 @@ function Home() {
             Logout
           </button>
         </div>)}
+      </div>
       </div>
       
             <header className="App-header">
