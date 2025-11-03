@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Weather.css";
 import Music from "./Music";
-import { addLocation } from './services/locationService';
+import { addLocation, getRecentLocations } from './services/locationService';
 
 function Weather() {
   const [mode, setMode] = useState("city");
@@ -10,6 +10,29 @@ function Weather() {
   const [lon, setLon] = useState("");
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const initWeather = async () => {
+      const locations = await getRecentLocations()
+      const key = process.env.REACT_APP_WEATHER_KEY;
+      let most_recent_loc = [];
+      let recent_lat = "";
+      let recent_lon = "";
+      let url = "";
+      if (locations.length > 0) {
+        most_recent_loc = locations[0];
+        recent_lat = most_recent_loc.latitude;
+        recent_lon = most_recent_loc.longitude;
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${recent_lat}&lon=${recent_lon}&appid=${key}&units=metric`;
+        await fetchWeather(url, save_loc_flag = false);
+      }
+      else {
+        console.log('No recent locations found.');
+      }
+    };
+    initWeather();
+    console.log('Weather loaded');
+  }, []);
 
   async function getWeather(e) {
     if (e) e.preventDefault();
@@ -32,7 +55,7 @@ function Weather() {
     await fetchWeather(url);
   }
 
-  async function fetchWeather(url) {
+  async function fetchWeather(url, save_loc_flag = true) {
   setLoading(true);
   try {
     const response = await fetch(url);
@@ -43,7 +66,8 @@ function Weather() {
       setWeather(data);
 
       // ✅ Save location (only if we have valid coordinates)
-      if (data.coord && data.coord.lat && data.coord.lon) {
+      // Also, only save the location if the save_loc_flag is set to true
+      if (save_loc_flag && data.coord && data.coord.lat && data.coord.lon) {
         try {
           await addLocation(data.coord.lat, data.coord.lon);
           console.log("Location saved:", data.coord);
