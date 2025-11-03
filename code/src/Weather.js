@@ -24,7 +24,7 @@ function Weather() {
         recent_lat = most_recent_loc.latitude;
         recent_lon = most_recent_loc.longitude;
         url = `https://api.openweathermap.org/data/2.5/weather?lat=${recent_lat}&lon=${recent_lon}&appid=${key}&units=metric`;
-        await fetchWeather(url, save_loc_flag = false);
+        await fetchWeather(url, false);
       }
       else {
         console.log('No recent locations found.');
