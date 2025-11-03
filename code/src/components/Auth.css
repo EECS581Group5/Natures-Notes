@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #FAF1DF 5%, #81C784 40%);
+  background: linear-gradient(135deg, #FAF1DF 5%, #81C784 40% ,#2E7D32 90%);
   padding: 20px;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .auth-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #0c5dde;
   color: white;
   border: none;
   padding: 14px 24px;
