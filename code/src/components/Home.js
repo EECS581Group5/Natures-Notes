@@ -34,17 +34,11 @@ function Home() {
     <div className="App">
       <div id="top-banner">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Nature Notes is coming soon!</p>
       </div>
-      <div className="clear"></div>
-
+      
+      <div className='guestLogOut'>
       {user && (
-        <div style={{
-          textAlign: 'center',
-          padding: '20px',
-          background: '#f5f5f5',
-          borderBottom: '1px solid #ddd'
-        }}>
+        <div>
           <p style={{ margin: '0 0 10px 0', color: '#333' }}>
             Welcome back, <strong>{user.username}</strong>!
           </p>
@@ -63,8 +57,9 @@ function Home() {
           >
             Logout
           </button>
-        </div>
-      )}
+        </div>)}
+      </div>
+      
             <header className="App-header">
         <Weather />
         <br />
