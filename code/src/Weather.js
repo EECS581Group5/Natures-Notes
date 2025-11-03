@@ -24,7 +24,7 @@ function Weather() {
         recent_lat = most_recent_loc.latitude;
         recent_lon = most_recent_loc.longitude;
         url = `https://api.openweathermap.org/data/2.5/weather?lat=${recent_lat}&lon=${recent_lon}&appid=${key}&units=metric`;
-        await fetchWeather(url);
+        await fetchWeather(url, save_loc_flag = false);
       }
       else {
         console.log('No recent locations found.');
@@ -55,7 +55,7 @@ function Weather() {
     await fetchWeather(url);
   }
 
-  async function fetchWeather(url) {
+  async function fetchWeather(url, save_loc_flag = true) {
   setLoading(true);
   try {
     const response = await fetch(url);
@@ -66,7 +66,8 @@ function Weather() {
       setWeather(data);
 
       // ✅ Save location (only if we have valid coordinates)
-      if (data.coord && data.coord.lat && data.coord.lon) {
+      // Also, only save the location if the save_loc_flag is set to true
+      if (save_loc_flag && data.coord && data.coord.lat && data.coord.lon) {
         try {
           await addLocation(data.coord.lat, data.coord.lon);
           console.log("Location saved:", data.coord);
