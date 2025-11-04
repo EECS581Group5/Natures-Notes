@@ -334,23 +334,58 @@
 
 @media (max-width: 768px) {
   .music-player-bar {
-    flex-direction: column;
-    height: auto;
-    padding: 15px;
-    gap: 15px;
-  }
-
-  .player-left,
-  .player-center {
-    width: 100%;
-    max-width: none;
+    flex-direction: row;
+    height: 70px;
+    padding: 10px 15px;
+    gap: 10px;
   }
 
   .player-left {
-    justify-content: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .album-art {
+    width: 48px;
+    height: 48px;
+  }
+
+  .track-name {
+    font-size: 13px;
+  }
+
+  .track-artist {
+    font-size: 11px;
+  }
+
+  .player-center {
+    flex: 0 0 auto;
+  }
+
+  .player-controls {
+    gap: 8px;
+  }
+
+  .control-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .play-btn {
+    width: 32px;
+    height: 32px;
   }
 
   .progress-container {
-    order: -1;
+    display: none;
+  }
+}
+
+/* Safe area for iPhone notch */
+@supports (padding: max(0px)) {
+  .music-player-bar {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
   }
 }

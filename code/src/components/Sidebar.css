@@ -317,3 +317,23 @@
 .sidebar::-webkit-scrollbar-thumb:hover {
   background: #444;
 }
+
+/* Mobile responsiveness */
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    max-width: 280px;
+    z-index: 400;
+  }
+}

@@ -16,3 +16,28 @@
     margin-left: 0;
   }
 }
+
+@media (max-width: 768px) {
+  .home-layout {
+    flex-direction: column;
+    padding-bottom: 70px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Safe area support for iPhone */
+@supports (padding: max(0px)) {
+  .home-layout {
+    padding-bottom: max(90px, calc(90px + env(safe-area-inset-bottom)));
+  }
+
+  @media (max-width: 768px) {
+    .home-layout {
+      padding-bottom: max(70px, calc(70px + env(safe-area-inset-bottom)));
+    }
+  }
+}
