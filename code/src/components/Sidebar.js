@@ -15,8 +15,7 @@ function Sidebar({ recentSearches = [] }) {
   };
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: 'home', path: '/' },
-    { id: 'settings', label: 'Settings', icon: 'settings', path: '/settings' }
+    { id: 'dashboard', label: 'Dashboard', icon: 'home', path: '/' }
   ];
 
   const isActive = (path) => location.pathname === path;
