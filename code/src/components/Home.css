@@ -2,12 +2,12 @@
   display: flex;
   min-height: 100vh;
   background: #0a0a0a;
+  padding-bottom: 90px;
 }
 
 .main-content {
   flex: 1;
   margin-left: 250px;
-  margin-bottom: 90px;
   overflow-y: auto;
 }
 

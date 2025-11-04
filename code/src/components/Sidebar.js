@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Sidebar.css';
@@ -7,6 +7,7 @@ function Sidebar({ recentSearches = [] }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -43,7 +44,7 @@ function Sidebar({ recentSearches = [] }) {
         </div>
       </div>
 
-      <div className="user-profile">
+      <div className="user-profile" onClick={() => setShowProfileMenu(!showProfileMenu)}>
         <div className="user-avatar">
           {user?.username?.substring(0, 2).toUpperCase() || 'AJ'}
         </div>
@@ -51,6 +52,20 @@ function Sidebar({ recentSearches = [] }) {
           <div className="user-name">{user?.username || 'Alex Johnson'}</div>
           <div className="user-badge">Premium User</div>
         </div>
+
+        {showProfileMenu && (
+          <div className="profile-menu" onClick={(e) => e.stopPropagation()}>
+            <div className="profile-menu-header">
+              <div className="user-name">{user?.username || 'Alex Johnson'}</div>
+              <div className="user-email">{user?.email || 'alex@example.com'}</div>
+            </div>
+            <div className="profile-menu-divider"></div>
+            <button className="profile-menu-item" onClick={handleLogout}>
+              <span className="logout-icon"></span>
+              Logout
+            </button>
+          </div>
+        )}
       </div>
 
       <nav className="sidebar-nav">
@@ -84,10 +99,6 @@ function Sidebar({ recentSearches = [] }) {
           )}
         </div>
       </div>
-
-      <button className="logout-btn" onClick={handleLogout}>
-        Logout
-      </button>
     </div>
   );
 }
