@@ -26,14 +26,14 @@ module.exports = async (req, res) => {
     if (req.method === 'GET') {
       // Fetch recent locations for the authenticated user (up to 3 most recent)
       const result = await pool.query(
-        'SELECT id, latitude, longitude, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
+        'SELECT id, latitude, longitude, city_name, country_code, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
         [userId]
       );
       res.status(200).json(result.rows);
 
     } else if (req.method === 'POST') {
       // Add a new recent location for the authenticated user
-      const { latitude, longitude } = req.body;
+      const { latitude, longitude, city_name, country_code } = req.body;
 
       // Validate input
       if (latitude === undefined || longitude === undefined) {
@@ -50,8 +50,8 @@ module.exports = async (req, res) => {
 
       // Insert new location
       await pool.query(
-        'INSERT INTO user_recent_locations (user_id, latitude, longitude, accessed_at) VALUES ($1, $2, $3, NOW())',
-        [userId, latitude, longitude]
+        'INSERT INTO user_recent_locations (user_id, latitude, longitude, city_name, country_code, accessed_at) VALUES ($1, $2, $3, $4, $5, NOW())',
+        [userId, latitude, longitude, city_name || null, country_code || null]
       );
 
       // Delete locations beyond the 3 most recent
@@ -68,7 +68,7 @@ module.exports = async (req, res) => {
 
       // Fetch and return the updated recent locations
       const result = await pool.query(
-        'SELECT id, latitude, longitude, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
+        'SELECT id, latitude, longitude, city_name, country_code, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
         [userId]
       );
 

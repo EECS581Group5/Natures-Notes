@@ -105,7 +105,9 @@ function Sidebar({ recentSearches = [] }) {
             recentSearches.map((search) => (
               <div key={search.id} className="search-item">
                 <div className="search-location">
-                  <span className="location-name">{formatLocation(search.latitude, search.longitude)}</span>
+                  <span className="location-name">
+                    {search.city_name || formatLocation(search.latitude, search.longitude)}
+                  </span>
                 </div>
                 <div className="search-time">{formatTimeAgo(search.accessed_at)}</div>
               </div>

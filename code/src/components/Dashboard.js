@@ -45,7 +45,12 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
 
         if (saveLocation && weatherData.coord) {
           try {
-            await addLocation(weatherData.coord.lat, weatherData.coord.lon);
+            await addLocation(
+              weatherData.coord.lat,
+              weatherData.coord.lon,
+              weatherData.name,
+              weatherData.sys?.country
+            );
             updateRecentSearches();
           } catch (err) {
             console.error('Error saving location:', err);

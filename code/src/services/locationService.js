@@ -33,7 +33,7 @@ export async function getRecentLocations() {
 /**
  * Save a new location for the current user
  */
-export async function addLocation(latitude, longitude) {
+export async function addLocation(latitude, longitude, city_name = null, country_code = null) {
   try {
     const token = getToken();
     if (!token) throw new Error('User not authenticated');
@@ -44,7 +44,7 @@ export async function addLocation(latitude, longitude) {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ latitude, longitude })
+      body: JSON.stringify({ latitude, longitude, city_name, country_code })
     });
 
     if (!response.ok) {
