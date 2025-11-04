@@ -151,11 +151,25 @@
 }
 
 .weather-card {
-  background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
+  background: linear-gradient(135deg, #00c853 0%, #00e676 50%, #00c853 100%);
   border-radius: 24px;
   padding: 40px;
   color: white;
   margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.weather-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .weather-main {
@@ -163,6 +177,8 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 .weather-location {
@@ -210,6 +226,8 @@
   padding: 20px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 .condition-icon {
@@ -326,6 +344,8 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .metric {

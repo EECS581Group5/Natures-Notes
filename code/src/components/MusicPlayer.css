@@ -25,7 +25,7 @@
 .album-art {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, #00c853, #00e676);
+  background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -290,7 +290,7 @@
 }
 
 .weather-badge {
-  background: #00c853;
+  background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
   color: white;
   padding: 6px 12px;
   border-radius: 12px;
