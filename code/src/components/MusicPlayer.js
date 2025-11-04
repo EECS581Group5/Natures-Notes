@@ -227,7 +227,7 @@ function MusicPlayer({ weather }) {
         </div>
         <div className="track-info">
           <div className="track-name">{getTrackName(currentTrack)}</div>
-          <div className="track-artist">Nature Sounds Collection</div>
+          <div className="track-artist">{getWeatherCategory()} • Nature Sounds Collection</div>
         </div>
       </div>
 
@@ -269,7 +269,6 @@ function MusicPlayer({ weather }) {
       <div className="player-right">
         <span className="weather-badge">{getWeatherCategory()} Weather</span>
         <span className="playlist-info">🎵 {currentPlaylist.length} tracks</span>
-        <button className="help-btn">?</button>
       </div>
     </div>
   );
