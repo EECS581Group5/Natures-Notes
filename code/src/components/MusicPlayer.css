@@ -104,7 +104,6 @@
   background: transparent;
   border: none;
   color: #a0a0a0;
-  font-size: 16px;
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
@@ -113,7 +112,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s, background 0.2s;
+  transition: color 0.2s, background 0.2s, transform 0.2s;
+  position: relative;
 }
 
 .control-btn:hover:not(:disabled) {
@@ -129,7 +129,6 @@
 .play-btn {
   background: #ffffff;
   color: #000000;
-  font-size: 14px;
   width: 36px;
   height: 36px;
 }
@@ -137,6 +136,94 @@
 .play-btn:hover:not(:disabled) {
   background: #ffffff;
   transform: scale(1.05);
+}
+
+/* Play icon (triangle) */
+.icon-play {
+  width: 0;
+  height: 0;
+  border-left: 10px solid currentColor;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  margin-left: 2px;
+}
+
+/* Pause icon (two bars) */
+.icon-pause {
+  width: 12px;
+  height: 14px;
+  position: relative;
+  display: flex;
+  gap: 4px;
+}
+
+.icon-pause::before,
+.icon-pause::after {
+  content: '';
+  width: 3px;
+  height: 14px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+/* Previous track icon */
+.icon-prev {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon-prev::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-right: 8px solid currentColor;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  position: absolute;
+  right: 0;
+}
+
+.icon-prev::after {
+  content: '';
+  width: 2px;
+  height: 12px;
+  background: currentColor;
+  position: absolute;
+  left: 0;
+  border-radius: 1px;
+}
+
+/* Next track icon */
+.icon-next {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon-next::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 8px solid currentColor;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  position: absolute;
+  left: 0;
+}
+
+.icon-next::after {
+  content: '';
+  width: 2px;
+  height: 12px;
+  background: currentColor;
+  position: absolute;
+  right: 0;
+  border-radius: 1px;
 }
 
 .progress-container {

@@ -183,7 +183,7 @@ function MusicPlayer({ weather }) {
       <div className="music-player-bar">
         <div className="player-left">
           <div className="album-art">
-            <span className="music-icon">🎵</span>
+            <span className="music-icon"></span>
           </div>
           <div className="track-info">
             <div className="track-name">No track playing</div>
@@ -192,9 +192,15 @@ function MusicPlayer({ weather }) {
         </div>
         <div className="player-center">
           <div className="player-controls">
-            <button className="control-btn" disabled>⏮️</button>
-            <button className="control-btn play-btn" disabled>▶️</button>
-            <button className="control-btn" disabled>⏭️</button>
+            <button className="control-btn prev-btn" disabled>
+              <span className="icon-prev"></span>
+            </button>
+            <button className="control-btn play-btn" disabled>
+              <span className="icon-play"></span>
+            </button>
+            <button className="control-btn next-btn" disabled>
+              <span className="icon-next"></span>
+            </button>
           </div>
         </div>
         <div className="player-right">
@@ -228,24 +234,24 @@ function MusicPlayer({ weather }) {
       <div className="player-center">
         <div className="player-controls">
           <button
-            className="control-btn"
+            className="control-btn prev-btn"
             onClick={playPreviousTrack}
             disabled={currentPlaylist.length < 2}
           >
-            ⏮️
+            <span className="icon-prev"></span>
           </button>
           <button
-            className="control-btn play-btn"
+            className={`control-btn play-btn ${isPlaying ? 'playing' : ''}`}
             onClick={togglePlay}
           >
-            {isPlaying ? '⏸️' : '▶️'}
+            <span className={isPlaying ? 'icon-pause' : 'icon-play'}></span>
           </button>
           <button
-            className="control-btn"
+            className="control-btn next-btn"
             onClick={playNextTrack}
             disabled={currentPlaylist.length < 2}
           >
-            ⏭️
+            <span className="icon-next"></span>
           </button>
         </div>
         <div className="progress-container">
