@@ -44,7 +44,19 @@ function Sidebar({ recentSearches = [] }) {
         </div>
       </div>
 
-      <div className="user-profile" onClick={() => setShowProfileMenu(!showProfileMenu)}>
+      <div
+        className="user-profile"
+        onClick={() => setShowProfileMenu(!showProfileMenu)}
+        ref={(el) => {
+          if (el && showProfileMenu) {
+            const rect = el.getBoundingClientRect();
+            const menu = el.querySelector('.profile-menu');
+            if (menu) {
+              menu.style.bottom = `${window.innerHeight - rect.bottom}px`;
+            }
+          }
+        }}
+      >
         <div className="user-avatar">
           {user?.username?.substring(0, 2).toUpperCase() || 'AJ'}
         </div>
