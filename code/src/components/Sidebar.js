@@ -15,7 +15,6 @@ function Sidebar({ recentSearches = [] }) {
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: 'home', path: '/' },
-    { id: 'history', label: 'History', icon: 'history', path: '/history' },
     { id: 'settings', label: 'Settings', icon: 'settings', path: '/settings' }
   ];
 
