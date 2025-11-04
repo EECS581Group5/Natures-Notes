@@ -46,7 +46,7 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
         if (saveLocation && weatherData.coord) {
           try {
             await addLocation(weatherData.coord.lat, weatherData.coord.lon);
-            updateRecentSearches(weatherData);
+            updateRecentSearches();
           } catch (err) {
             console.error('Error saving location:', err);
           }
@@ -62,20 +62,11 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
     }
   };
 
-  const updateRecentSearches = (weatherData) => {
-    if (!onRecentSearchesUpdate) return;
-
-    const search = {
-      name: weatherData.name,
-      temp: Math.round(weatherData.main.temp * (9/5) + 32),
-      timestamp: new Date().toISOString()
-    };
-
-    const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-    const filtered = recentSearches.filter(s => s.name !== search.name);
-    const updated = [search, ...filtered].slice(0, 10);
-    localStorage.setItem('recentSearches', JSON.stringify(updated));
-    onRecentSearchesUpdate(updated);
+  const updateRecentSearches = () => {
+    // Trigger parent to refresh recent searches from database
+    if (onRecentSearchesUpdate) {
+      onRecentSearchesUpdate();
+    }
   };
 
   const handleSearch = async (e) => {

@@ -21,9 +21,9 @@ function Sidebar({ recentSearches = [] }) {
 
   const isActive = (path) => location.pathname === path;
 
-  const formatTimeAgo = (date) => {
+  const formatTimeAgo = (dateString) => {
     const now = new Date();
-    const searchDate = new Date(date);
+    const searchDate = new Date(dateString);
     const diffMs = now - searchDate;
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMins / 60);
@@ -33,6 +33,12 @@ function Sidebar({ recentSearches = [] }) {
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
     return `${diffDays}d ago`;
+  };
+
+  const formatLocation = (lat, lon) => {
+    const latDir = lat >= 0 ? 'N' : 'S';
+    const lonDir = lon >= 0 ? 'E' : 'W';
+    return `${Math.abs(lat).toFixed(2)}°${latDir}, ${Math.abs(lon).toFixed(2)}°${lonDir}`;
   };
 
   return (
@@ -97,13 +103,12 @@ function Sidebar({ recentSearches = [] }) {
         <h3>Recent Searches</h3>
         <div className="search-list">
           {recentSearches.length > 0 ? (
-            recentSearches.slice(0, 6).map((search, index) => (
-              <div key={index} className="search-item">
+            recentSearches.map((search) => (
+              <div key={search.id} className="search-item">
                 <div className="search-location">
-                  <span className="location-name">{search.name}</span>
-                  <span className="location-temp">{search.temp}°</span>
+                  <span className="location-name">{formatLocation(search.latitude, search.longitude)}</span>
                 </div>
-                <div className="search-time">{formatTimeAgo(search.timestamp)}</div>
+                <div className="search-time">{formatTimeAgo(search.accessed_at)}</div>
               </div>
             ))
           ) : (

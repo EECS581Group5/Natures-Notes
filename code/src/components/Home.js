@@ -2,26 +2,29 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
 import MusicPlayer from './MusicPlayer';
+import { getRecentLocations } from '../services/locationService';
 import './Home.css';
 
 function Home() {
   const [recentSearches, setRecentSearches] = useState([]);
   const [weather, setWeather] = useState(null);
 
-  useEffect(() => {
-    // Load recent searches from localStorage
-    const stored = localStorage.getItem('recentSearches');
-    if (stored) {
-      try {
-        setRecentSearches(JSON.parse(stored));
-      } catch (err) {
-        console.error('Error parsing recent searches:', err);
-      }
+  const fetchRecentSearches = async () => {
+    try {
+      const locations = await getRecentLocations();
+      setRecentSearches(locations);
+    } catch (err) {
+      console.error('Error fetching recent searches:', err);
     }
+  };
+
+  useEffect(() => {
+    fetchRecentSearches();
   }, []);
 
-  const handleRecentSearchesUpdate = (searches) => {
-    setRecentSearches(searches);
+  const handleRecentSearchesUpdate = () => {
+    // Refresh recent searches from database
+    fetchRecentSearches();
   };
 
   return (
