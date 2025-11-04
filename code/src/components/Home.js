@@ -1,91 +1,39 @@
-import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import Weather from '../Weather';
-import { getRecentLocations } from '../services/locationService';
-import logo from '../nature_logo.png';
-import '../App.css';
+import React, { useState, useEffect } from 'react';
+import Sidebar from './Sidebar';
+import Dashboard from './Dashboard';
+import MusicPlayer from './MusicPlayer';
+import './Home.css';
 
 function Home() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const [recentLocations, setRecentLocations] = useState([]);
-  useEffect(() => {
-  const fetchRecent = async () => {
-    if (!user) return;
-    try {
-      console.log('Fetching recent locations for user:', user);
-      const locations = await getRecentLocations();
-      console.log('Recent locations fetched:', locations);
-      setRecentLocations(locations);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  fetchRecent();
-}, [user]);
+  const [recentSearches, setRecentSearches] = useState([]);
+  const [weather, setWeather] = useState(null);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+  useEffect(() => {
+    // Load recent searches from localStorage
+    const stored = localStorage.getItem('recentSearches');
+    if (stored) {
+      try {
+        setRecentSearches(JSON.parse(stored));
+      } catch (err) {
+        console.error('Error parsing recent searches:', err);
+      }
+    }
+  }, []);
+
+  const handleRecentSearchesUpdate = (searches) => {
+    setRecentSearches(searches);
   };
 
   return (
-    <div className="App">
-      <div id="top-banner">
-        <img src={logo} className="App-logo" alt="logo" />
-      
-      
-      <div className='guestLogOut'>
-      {user && (
-        <div>
-          <p style={{ margin: '0 0 10px 0', color: '#333' }}>
-            Welcome back, <strong>{user.username}</strong>!
-          </p>
-          <button
-            onClick={handleLogout}
-            style={{
-              padding: '8px 16px',
-              background: '#0c5dde',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '600'
-            }}
-          >
-            Logout
-          </button>
-        </div>)}
+    <div className="home-layout">
+      <Sidebar recentSearches={recentSearches} />
+      <div className="main-content">
+        <Dashboard
+          onRecentSearchesUpdate={handleRecentSearchesUpdate}
+          onWeatherUpdate={setWeather}
+        />
       </div>
-      </div>
-      
-            <header className="App-header">
-        <Weather />
-        <br />
-
-        {user && recentLocations.length > 0 && (
-          <div style={{
-            marginTop: '20px',
-            textAlign: 'center',
-            background: '#e8f5e9',
-            padding: '10px 20px',
-            borderRadius: '10px'
-          }}>
-            <h3 style={{ marginBottom: '10px', color: '#333' }}>Recent Locations</h3>
-            <ul style={{ listStyle: 'none', padding: 0, color: '#555' }}>
-              {recentLocations.map(loc => (
-                <li key={loc.id}>
-                  <strong>Lat:</strong> {Math.round(loc.latitude,3)}, <strong>Lon:</strong> {Math.round(loc.longitude,3)} <br />
-                  <small>{new Date(loc.accessed_at).toLocaleString()}</small>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </header>
-
+      <MusicPlayer weather={weather} />
     </div>
   );
 }
