@@ -166,7 +166,7 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
     <div className="dashboard">
       <div className="dashboard-header">
         <div className="search-container">
-          <form onSubmit={handleSearch}>
+          <form onSubmit={handleSearch} className="search-form">
             <input
               type="text"
               className="search-input"
@@ -174,6 +174,9 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <button type="submit" className="search-btn">
+              <span className="search-icon"></span>
+            </button>
           </form>
           <button className="location-btn" onClick={handleUseMyLocation}>
             <span className="location-icon"></span>
