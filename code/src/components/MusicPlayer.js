@@ -217,7 +217,7 @@ function MusicPlayer({ weather }) {
 
       <div className="player-left">
         <div className="album-art">
-          <span className="music-icon">🎵</span>
+          <span className="music-icon"></span>
         </div>
         <div className="track-info">
           <div className="track-name">{getTrackName(currentTrack)}</div>

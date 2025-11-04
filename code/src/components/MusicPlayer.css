@@ -34,7 +34,34 @@
 }
 
 .music-icon {
-  font-size: 28px;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-icon::before {
+  content: '';
+  width: 3px;
+  height: 20px;
+  background: white;
+  position: absolute;
+  left: 8px;
+  bottom: 4px;
+  border-radius: 2px;
+}
+
+.music-icon::after {
+  content: '';
+  width: 3px;
+  height: 26px;
+  background: white;
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  border-radius: 2px;
 }
 
 .track-info {

@@ -108,6 +108,47 @@
 }
 
 .nav-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Home icon */
+.icon-home::before {
+  content: '';
+  width: 18px;
+  height: 16px;
+  background: currentColor;
+  clip-path: polygon(50% 0%, 100% 35%, 100% 100%, 65% 100%, 65% 60%, 35% 60%, 35% 100%, 0% 100%, 0% 35%);
+}
+
+/* History icon (clock) */
+.icon-history::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  position: relative;
+}
+
+.icon-history::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 6px;
+  background: currentColor;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Settings icon (gear) */
+.icon-settings::before {
+  content: '⚙';
   font-size: 18px;
 }
 

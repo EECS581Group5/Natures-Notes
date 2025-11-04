@@ -14,9 +14,9 @@ function Sidebar({ recentSearches = [] }) {
   };
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: '🏠', path: '/' },
-    { id: 'history', label: 'History', icon: '🕒', path: '/history' },
-    { id: 'settings', label: 'Settings', icon: '⚙️', path: '/settings' }
+    { id: 'dashboard', label: 'Dashboard', icon: 'home', path: '/' },
+    { id: 'history', label: 'History', icon: 'history', path: '/history' },
+    { id: 'settings', label: 'Settings', icon: 'settings', path: '/settings' }
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -62,7 +62,7 @@ function Sidebar({ recentSearches = [] }) {
             className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
             onClick={() => navigate(item.path)}
           >
-            <span className="nav-icon">{item.icon}</span>
+            <span className={`nav-icon icon-${item.icon}`}></span>
             <span className="nav-label">{item.label}</span>
           </button>
         ))}

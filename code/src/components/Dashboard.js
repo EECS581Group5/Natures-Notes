@@ -135,17 +135,18 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
   const celsiusToFahrenheit = (celsius) => Math.round(celsius * (9/5) + 32);
 
   const getWeatherIcon = (main) => {
-    const icons = {
-      Clear: '☀️',
-      Clouds: '☁️',
-      Rain: '🌧️',
-      Snow: '❄️',
-      Thunderstorm: '⛈️',
-      Drizzle: '🌦️',
-      Mist: '🌫️',
-      Fog: '🌫️'
+    // Return class name instead of emoji
+    const iconMap = {
+      Clear: 'clear',
+      Clouds: 'clouds',
+      Rain: 'rain',
+      Snow: 'snow',
+      Thunderstorm: 'thunderstorm',
+      Drizzle: 'drizzle',
+      Mist: 'mist',
+      Fog: 'mist'
     };
-    return icons[main] || '🌤️';
+    return iconMap[main] || 'clouds';
   };
 
   const formatTime = (timestamp) => {
@@ -175,7 +176,7 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
             />
           </form>
           <button className="location-btn" onClick={handleUseMyLocation}>
-            <span className="location-icon">📍</span>
+            <span className="location-icon"></span>
             Use My Location
           </button>
         </div>
@@ -205,9 +206,7 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
             </div>
 
             <div className="weather-condition">
-              <span className="condition-icon">
-                {getWeatherIcon(weather.weather[0].main)}
-              </span>
+              <span className={`condition-icon weather-icon-${getWeatherIcon(weather.weather[0].main)}`}></span>
               <div className="condition-text">
                 <div className="condition-main">{weather.weather[0].main}</div>
                 <div className="condition-desc">{weather.weather[0].description}</div>
@@ -216,22 +215,22 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
 
             <div className="weather-metrics">
               <div className="metric">
-                <div className="metric-icon">💧</div>
+                <div className="metric-icon icon-humidity"></div>
                 <div className="metric-label">Humidity</div>
                 <div className="metric-value">{weather.main.humidity}%</div>
               </div>
               <div className="metric">
-                <div className="metric-icon">💨</div>
+                <div className="metric-icon icon-wind"></div>
                 <div className="metric-label">Wind</div>
                 <div className="metric-value">{Math.round(weather.wind.speed * 2.237)} mph</div>
               </div>
               <div className="metric">
-                <div className="metric-icon">👁️</div>
+                <div className="metric-icon icon-visibility"></div>
                 <div className="metric-label">Visibility</div>
                 <div className="metric-value">{Math.round(weather.visibility / 1609)} mi</div>
               </div>
               <div className="metric">
-                <div className="metric-icon">🌡️</div>
+                <div className="metric-icon icon-pressure"></div>
                 <div className="metric-label">Pressure</div>
                 <div className="metric-value">{weather.main.pressure} mb</div>
               </div>
@@ -246,9 +245,7 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
                   <div className="forecast-time">
                     {index === 0 ? 'Now' : formatTime(hour.dt)}
                   </div>
-                  <div className="forecast-icon">
-                    {getWeatherIcon(hour.weather[0].main)}
-                  </div>
+                  <div className={`forecast-icon weather-icon-${getWeatherIcon(hour.weather[0].main)}`}></div>
                   <div className="forecast-temp">
                     {celsiusToFahrenheit(hour.main.temp)}°
                   </div>
@@ -261,7 +258,7 @@ function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
 
       {!weather && !loading && (
         <div className="empty-state">
-          <div className="empty-icon">🌤️</div>
+          <div className="empty-icon weather-icon-clouds"></div>
           <h3>Search for a location</h3>
           <p>Enter a city name or coordinates to get started</p>
         </div>
