@@ -37,7 +37,6 @@ function Sidebar({ recentSearches = [] }) {
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <div className="preview-badge">Preview</div>
         <div className="app-title">
           <h1>Nature Notes</h1>
           <p>Weather & Ambience</p>
