@@ -217,7 +217,7 @@ app.delete('/api/notes/:id', authenticateToken, async (req, res) => {
 app.get('/api/locations', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT id, latitude, longitude, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
+      'SELECT id, latitude, longitude, city_name, country_code, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
       [req.user.userId]
     );
     res.json(result.rows);
@@ -230,7 +230,7 @@ app.get('/api/locations', authenticateToken, async (req, res) => {
 // Add or update a recent location
 app.post('/api/locations', authenticateToken, async (req, res) => {
   try {
-    const { latitude, longitude } = req.body;
+    const { latitude, longitude, city_name, country_code } = req.body;
 
     // Validate input
     if (latitude === undefined || longitude === undefined) {
@@ -247,8 +247,8 @@ app.post('/api/locations', authenticateToken, async (req, res) => {
 
     // Insert new location
     await pool.query(
-      'INSERT INTO user_recent_locations (user_id, latitude, longitude, accessed_at) VALUES ($1, $2, $3, NOW())',
-      [req.user.userId, latitude, longitude]
+      'INSERT INTO user_recent_locations (user_id, latitude, longitude, city_name, country_code, accessed_at) VALUES ($1, $2, $3, $4, $5, NOW())',
+      [req.user.userId, latitude, longitude, city_name || null, country_code || null]
     );
 
     // Delete locations beyond the 3 most recent
@@ -265,7 +265,7 @@ app.post('/api/locations', authenticateToken, async (req, res) => {
 
     // Fetch and return the updated recent locations
     const result = await pool.query(
-      'SELECT id, latitude, longitude, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
+      'SELECT id, latitude, longitude, city_name, country_code, accessed_at FROM user_recent_locations WHERE user_id = $1 ORDER BY accessed_at DESC LIMIT 3',
       [req.user.userId]
     );
 
