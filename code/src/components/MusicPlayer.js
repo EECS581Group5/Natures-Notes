@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import MUSIC_LIBRARY from '../musicMap';
 import './MusicPlayer.css';
 
-function MusicPlayer({ weather }) {
+function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
   const [currentPlaylist, setCurrentPlaylist] = useState([]);
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -13,6 +13,7 @@ function MusicPlayer({ weather }) {
   const audioRef = useRef(null);
   const lastWeatherMainRef = useRef(null);
 
+  const lastFetchTimeRef = useRef(Date.now());
   const isPlayingRef = useRef(isPlaying);
   const hasInteractedRef = useRef(hasInteracted);
 
@@ -75,6 +76,16 @@ function MusicPlayer({ weather }) {
 
   const playNextTrack = () => {
     isAttemptingPlayRef.current = true;
+
+    // New logic
+    const now = Date.now();
+    if (onSongEnd && (now - lastFetchTimeRef.current > checkInterval)) {
+      console.log(`Periodic check: Time to fetch new weather (interval: ${checkInterval}ms).`);
+      onSongEnd(); // Call the parent's function (Home.js)
+      lastFetchTimeRef.current = now; // Reset the timer
+    }
+    // End new logic
+
     setTimeout(() => {
       setTrackIndex(prevIndex => {
         const playlistLength = currentPlaylist.length;

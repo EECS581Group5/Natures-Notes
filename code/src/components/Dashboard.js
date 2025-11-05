@@ -1,129 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import { addLocation, getRecentLocations } from '../services/locationService';
+import React, { useState } from 'react';
 import './Dashboard.css';
 
-function Dashboard({ onRecentSearchesUpdate, onWeatherUpdate }) {
+function Dashboard({
+  onFetchWeather, // This is our new fetcher
+  weather,        // Data now comes from props
+  forecast,     // Data now comes from props
+  loading,        // Data now comes from props
+  setLoading    // Get setLoading from Home
+}) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [weather, setWeather] = useState(null);
-  const [forecast, setForecast] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const initWeather = async () => {
-      const locations = await getRecentLocations();
-      if (locations.length > 0) {
-        const mostRecent = locations[0];
-        await fetchWeatherByCoords(mostRecent.latitude, mostRecent.longitude, false);
-      }
-    };
-    initWeather();
-  }, []);
+  // All state related to weather/forecast/loading is REMOVED
+  // All fetching logic (useEffect, fetchWeatherByCoords) is REMOVED
 
-  const fetchWeatherByCoords = async (lat, lon, saveLocation = true) => {
-    const key = process.env.REACT_APP_WEATHER_KEY;
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=metric`;
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}&units=metric`;
-
-    setLoading(true);
-    try {
-      const [weatherRes, forecastRes] = await Promise.all([
-        fetch(weatherUrl),
-        fetch(forecastUrl)
-      ]);
-
-      const weatherData = await weatherRes.json();
-      const forecastData = await forecastRes.json();
-
-      if (weatherRes.ok && forecastRes.ok) {
-        setWeather(weatherData);
-        setForecast(forecastData);
-
-        // Pass weather data to parent component
-        if (onWeatherUpdate) {
-          onWeatherUpdate(weatherData);
-        }
-
-        if (saveLocation && weatherData.coord) {
-          try {
-            await addLocation(
-              weatherData.coord.lat,
-              weatherData.coord.lon,
-              weatherData.name,
-              weatherData.sys?.country
-            );
-            updateRecentSearches();
-          } catch (err) {
-            console.error('Error saving location:', err);
-          }
-        }
-      } else {
-        alert(`Error: ${weatherData.message || forecastData.message}`);
-      }
-    } catch (error) {
-      console.error('Error fetching weather:', error);
-      alert('Failed to fetch weather. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const updateRecentSearches = () => {
-    // Trigger parent to refresh recent searches from database
-    if (onRecentSearchesUpdate) {
-      onRecentSearchesUpdate();
-    }
-  };
-
+  // 4. Update handleSearch to call the prop
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
 
     const key = process.env.REACT_APP_WEATHER_KEY;
+    if (!key) {
+      alert("Weather API key is not configured.");
+      return;
+    }
 
-    // Check if it's coordinates (format: lat, lon)
     const coordsMatch = searchQuery.match(/^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/);
 
     if (coordsMatch) {
       const lat = parseFloat(coordsMatch[1]);
       const lon = parseFloat(coordsMatch[2]);
-      await fetchWeatherByCoords(lat, lon);
+      // Call the prop function from Home, save this new location
+      await onFetchWeather(lat, lon, true);
     } else {
-      // Search by city
+      // Search by city (needs geocoding first)
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${key}&units=metric`;
-      setLoading(true);
+      setLoading(true); // Set loading state from parent
       try {
         const response = await fetch(url);
         const data = await response.json();
 
         if (response.ok && data.coord) {
-          await fetchWeatherByCoords(data.coord.lat, data.coord.lon);
+          // Call the prop function from Home, save this new location
+          await onFetchWeather(data.coord.lat, data.coord.lon, true);
         } else {
           alert(`Error: ${data.message}`);
-          setLoading(false);
+          setLoading(false); // Reset loading on error
         }
       } catch (error) {
         console.error('Error:', error);
         alert('Failed to search location.');
-        setLoading(false);
+        setLoading(false); // Reset loading on error
       }
     }
+    setSearchQuery(''); // Clear search bar
   };
 
+  // 5. Update handleUseMyLocation to call the prop
   const handleUseMyLocation = () => {
     if (!navigator.geolocation) {
       alert('Geolocation is not supported by your browser.');
       return;
     }
 
-    setLoading(true);
+    setLoading(true); // Set loading state from parent
     navigator.geolocation.getCurrentPosition(
       async (position) => {
-        await fetchWeatherByCoords(position.coords.latitude, position.coords.longitude);
+        // Call the prop function from Home, save this new location
+        await onFetchWeather(position.coords.latitude, position.coords.longitude, true);
       },
       (error) => {
         console.error('Error getting location:', error);
         alert('Unable to retrieve your location.');
-        setLoading(false);
+        setLoading(false); // Reset loading on error
       }
     );
   };
