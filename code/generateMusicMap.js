@@ -8,15 +8,14 @@ const OUTPUT_FILE = path.join(__dirname, 'src', 'musicMap.js');
 // Map directory names to OpenWeatherMap 'main' condition
 const WEATHER_MAPPING = {
     'sunny': ['Clear'],
-    'rainy': ['Rain', 'Drizzle', 'Thunderstorm', 'Mist'], // Move Thunderstorm to stormy when supported
+    'rainy': ['Rain', 'Drizzle', 'Mist'],
     'snowy': ['Snow'],
     'cloudy': ['Clouds'],
     'sandy': ['Sand', 'Dust'],
     'hazy': ['Haze', 'Fog'],
+    'smoky': ['Smoke', 'Ash'],
+    'stormy': ['Thunderstorm', 'Squall', 'Tornado'],
     'minesweeper': ['Minesweeper'] // Easter egg
-    // Not currently supported:
-    // 'smoky': ['Smoke', 'Ash']
-    // 'stormy': ['Thunderstorm', 'Squall', 'Tornado']
 };
 
 // --- Script Logic ---
