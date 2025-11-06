@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSpotify } from '../contexts/SpotifyContext';
 import spotifyService from '../services/spotifyService';
 import PlaylistMapper from './PlaylistMapper';
+import SpotifyPreviewPlayer from './SpotifyPreviewPlayer';
 import MUSIC_LIBRARY from '../musicMap';
 import './MusicPlayer.css';
 
@@ -314,8 +315,22 @@ function MusicPlayerEnhanced({ weather, onSongEnd, checkInterval = 30*60*1000 })
     ? (spotify.isConnected && spotify.deviceId && currentSpotifyPlaylist)
     : currentTrack;
 
-  // Render Spotify mode
+  // Render Spotify mode with preview player
   if (mode === 'spotify') {
+    return (
+      <>
+        <SpotifyPreviewPlayer weather={weather} />
+        <div style={{ position: 'absolute', bottom: '100px', right: '20px', zIndex: 1000 }}>
+          <button onClick={handleModeToggle} className="mode-toggle-btn" title="Switch to local music">
+            Switch to Local Music
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  // OLD CODE BELOW - keeping for reference but not used
+  if (false && mode === 'spotify') {
     return (
       <>
         <div className="music-player-bar">
