@@ -6,7 +6,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Home from './components/Home';
 import './App.css';
-
+//overall app functionality, controlling routes between home, login, and signup pages
 function App() {
   return (
     <Router>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./Weather.css";
 import Music from "./Music";
 import { addLocation, getRecentLocations } from './services/locationService';
-
+// Weather component to fetch and display weather information
 function Weather() {
   const [mode, setMode] = useState("city");
   const [city, setCity] = useState("");
@@ -10,7 +10,7 @@ function Weather() {
   const [lon, setLon] = useState("");
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  // On component mount, load weather for most recent location
   useEffect(() => {
     const initWeather = async () => {
       const locations = await getRecentLocations()
@@ -33,7 +33,7 @@ function Weather() {
     initWeather();
     console.log('Weather loaded');
   }, []);
-
+  // Fetch weather based on user input
   async function getWeather(e) {
     if (e) e.preventDefault();
     const key = process.env.REACT_APP_WEATHER_KEY;
@@ -54,7 +54,7 @@ function Weather() {
 
     await fetchWeather(url);
   }
-
+  // Core function to fetch weather data
   async function fetchWeather(url, save_loc_flag = true) {
   setLoading(true);
   try {
