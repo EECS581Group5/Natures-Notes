@@ -3,3 +3,8 @@ Create Postgres Database using Neon, .5, Will
 Create User Authentication, 1, Will
 Create Figma Design, 0.5, Will
 Create Implement New UI, 0.5, Will
+Add support for playing multiple tracks from a playlist, 3, Eric
+Add skip controls, 0.5, Eric
+Implement automatic weather fetches and updates, 1.5, Eric
+Create playlists for hazy+smoky+sandy+stormy conditions, 1, Eric
+Add more songs to existing playlists, 0.5, Eric
