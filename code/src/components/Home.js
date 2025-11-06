@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
-import MusicPlayer from './MusicPlayer';
+import MusicPlayer from './MusicPlayerEnhanced';
 import { getRecentLocations, addLocation } from '../services/locationService';
 import './Home.css';
 
