@@ -1,11 +1,13 @@
-Task, Time, Person
-Create inital React App, .5, Will
-Build User location entry field, 1, Will
-Integrate weather API, 2, Will
-Integrate user location with weather API, 2, Ben
-Sprint 1 Requirement Stacks, 1, Ben
-Spike story (React tutorial), 1, Eric
-Create music player for single tracks, 2, Eric
-Create play/pause controls, 0.5, Eric
-Spike Story, 1, Ruth
-Frontend Add UI elements, 2, Ruth
+Task," Time"," Person"
+Create inital React App," .5"," Will"
+Build User location entry field," 1"," Will"
+Integrate weather API," 2"," Will"
+Integrate user location with weather API," 2"," Ben"
+Sprint 1 Requirement Stacks," 1"," Ben"
+Spike story (React tutorial)," 1"," Eric"
+Create music player for single tracks," 2"," Eric"
+Create play/pause controls," 0.5"," Eric"
+Spike Story," 1"," Ruth"
+Frontend Add UI elements," 2"," Ruth"
+Spike Story,1,MJ
+Edited HTML metadata,.5,MJ
