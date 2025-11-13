@@ -3,7 +3,7 @@
   height: 100vh;
   background: #43B548;
   border: 3px solid #2E7D32;
-  color: #ffffff;
+  color: #fff6eb;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -39,7 +39,7 @@
 .app-title p {
   font-size: 14px;
   margin: 0;
-  color: white;
+  color: #FFEBD2;
 }
 
 .user-profile {
@@ -209,7 +209,7 @@
 
 .search-time {
   font-size: 12px;
-  color: white;
+  color: #FFEBD2;
 }
 
 .no-searches {
