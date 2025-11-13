@@ -1,7 +1,7 @@
 .dashboard {
   flex: 1;
   padding: 20px 30px;
-  background: #0a0a0a;
+  background: #f7e7c9;
   height: calc(100vh - 90px);
   overflow-y: auto;
   display: flex;
@@ -29,8 +29,8 @@
 .search-input {
   width: 100%;
   padding: 16px 60px 16px 20px;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: white;
+  border: 1px solid #43B548;
   border-radius: 12px;
   color: #ffffff;
   font-size: 15px;
@@ -154,7 +154,8 @@
 }
 
 .weather-card {
-  background: linear-gradient(135deg, #00c853 0%, #00e676 50%, #00c853 100%);
+  background: #2E7D32;
+  border: 3px solid #43B548;
   border-radius: 24px;
   padding: 30px;
   color: white;
@@ -461,7 +462,8 @@
 }
 
 .forecast-section {
-  background: #1a1a1a;
+  background: #2E7D32;
+  border: 3px solid #43B548;
   border-radius: 24px;
   padding: 20px;
   flex-shrink: 0;
@@ -481,16 +483,16 @@
 }
 
 .forecast-item {
-  background: #0a0a0a;
+  background: #81c784;
   padding: 15px 10px;
   border-radius: 16px;
   text-align: center;
-  border: 1px solid #2a2a2a;
+  border: 2px solid #43B548;
 }
 
 .forecast-time {
   font-size: 13px;
-  color: #a0a0a0;
+  color: white;
   margin-bottom: 12px;
   font-weight: 500;
 }
