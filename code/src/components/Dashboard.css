@@ -66,7 +66,7 @@
   background: #2a2a2a;
   color: #ffffff;
 }
-
+/*
 .search-icon {
   width: 20px;
   height: 20px;
@@ -95,7 +95,7 @@
   bottom: 0;
   right: 0;
   border-radius: 1px;
-}
+}*/
 
 .location-btn {
   display: flex;
@@ -117,6 +117,7 @@
   background: #00e05c;
 }
 
+/*
 .location-icon {
   width: 16px;
   height: 16px;
@@ -144,7 +145,7 @@
   border-radius: 50%;
   top: 3px;
   left: 4px;
-}
+}*/
 
 .loading {
   text-align: center;
@@ -246,6 +247,7 @@
 }
 
 /* Weather Icons */
+/*
 .weather-icon-clear::before {
   content: '';
   width: 40px;
@@ -331,8 +333,34 @@
   opacity: 0.7;
   box-shadow: 0 8px 0 currentColor, 0 16px 0 currentColor;
   border-radius: 2px;
+} */
+
+/* React Icon styling */
+.dashboard svg{
+  flex-shrink: 0;
 }
 
+.condition-icon svg{
+  font-size: 4rem;
+}
+
+.metric-icon svg {
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+.forecast-icon svg {
+  font-size: 2.2rem;
+  color: #ffffff;
+}
+
+.search-btn svg,
+.location-btn svg {
+  font-size: 1rem;
+  margin-right: 6px;
+}
+
+/* text in condition */
 .condition-main {
   font-size: 24px;
   font-weight: 600;
@@ -360,6 +388,7 @@
   text-align: center;
 }
 
+/*
 .metric-icon {
   width: 32px;
   height: 32px;
@@ -368,9 +397,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 /* Humidity icon (water droplet) */
+/*
 .icon-humidity::before {
   content: '';
   width: 16px;
@@ -381,6 +411,7 @@
 }
 
 /* Wind icon */
+/*
 .icon-wind::before {
   content: '';
   width: 24px;
@@ -403,6 +434,7 @@
 }
 
 /* Visibility icon (eye) */
+/*
 .icon-visibility::before {
   content: '';
   width: 28px;
@@ -425,6 +457,7 @@
 }
 
 /* Pressure icon (gauge) */
+/*
 .icon-pressure::before {
   content: '';
   width: 20px;
@@ -446,7 +479,7 @@
   left: 50%;
   transform: translateX(-50%);
   transform-origin: bottom;
-}
+} */
 
 .metric-label {
   font-size: 13px;
@@ -497,6 +530,7 @@
   font-weight: 500;
 }
 
+/*
 .forecast-icon {
   width: 36px;
   height: 36px;
@@ -505,7 +539,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .forecast-temp {
   font-size: 18px;
@@ -527,6 +561,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.empty-icon svg {
+  font-size: 5rem;
 }
 
 .empty-state h3 {
@@ -596,9 +634,14 @@
     margin-bottom: 15px;
   }
 
+  /*
   .condition-icon {
     width: 48px;
     height: 48px;
+  } */
+
+  .condition-icon svg {
+    font-size: 3rem;
   }
 
   .condition-main {
@@ -632,10 +675,15 @@
     padding: 10px 6px;
   }
 
+  /*
   .forecast-icon {
     width: 28px;
     height: 28px;
     margin: 6px auto;
+  }*/
+
+  .forecast-icon svg {
+    font-size: 1.8rem;
   }
 
   .forecast-temp {
