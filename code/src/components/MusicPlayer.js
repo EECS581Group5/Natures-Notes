@@ -16,7 +16,7 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
   const fadeIntervalRef = useRef(null);
   const isPlayingRef = useRef(isPlaying);
   const hasInteractedRef = useRef(hasInteracted);
-
+  const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     isPlayingRef.current = isPlaying;
     hasInteractedRef.current = hasInteracted;
@@ -278,7 +278,9 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
   }
 
   return (
-    <div className="music-player-bar">
+    <div className={`music-player-wrapper ${expanded ? "expanded" : ""}`}>
+      <div className="music-player-bar">
+
       <audio
         ref={audioRef}
         src={currentTrack}
@@ -334,11 +336,31 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
       </div>
 
       <div className="player-right">
+        <button className="expand-btn" onClick={() => setExpanded(prev => !prev)}>{expanded ? "▼" : "▲"}
+        </button>
         <span className="weather-badge">{getWeatherCategory()} Weather</span>
         <span className="playlist-info">🎵 {currentPlaylist.length} tracks</span>
       </div>
     </div>
-  );
-}
+  {expanded && (
+  <div className="expanded-content">
+    <div className="expanded-section">
+      <h4>Now Playing</h4>
+      <p>{getTrackName(currentTrack)}</p>
+    </div>
+
+    <div className="expanded-section">
+      <h4>Playlist</h4>
+      <ul>
+        {currentPlaylist.map((track, i) => (
+          <li key={track} style={{ fontWeight: i === trackIndex ? "700" : "400" }}>
+            {getTrackName(track)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
+</div>);}
 
 export default MusicPlayer;
