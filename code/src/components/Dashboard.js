@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Dashboard.css';
 import RainAnimation from './Animations';
 import {WiDaySunny, WiCloud, WiRain, WiSnow, WiFog, WiStrongWind, WiHumidity, WiBarometer} from 'react-icons/wi';
-import {FaLocationArrow, FaSearch, FaGlobe} from 'react-icons/fa';
+import {FaLocationArrow, FaSearch, FaGlobe, FaDice } from 'react-icons/fa';
 import GlobeComponent from './Globe';
 
 function Dashboard({
@@ -118,6 +118,12 @@ function Dashboard({
     await onFetchWeather(lat, lon, true);
   };
 
+  const handleRandomLocation = async () => {
+    const lat = (Math.random() * 180 - 90).toFixed(4);
+    const lon = (Math.random() * 360 - 180).toFixed(4);
+    await onFetchWeather(parseFloat(lat), parseFloat(lon), true);
+  };
+
   const celsiusToFahrenheit = (celsius) => Math.round(celsius * (9/5) + 32);
 
   const getWeatherReactIcon = (main) => {
@@ -182,7 +188,12 @@ function Dashboard({
           <button className="location-btn" onClick={handleUseMyLocation}>
             {/*<span className="location-icon"></span>*/}
             <FaLocationArrow />
-            Use My Location
+            
+          </button>
+          <button className="location-btn" onClick={handleRandomLocation}>
+            {/*<span className="location-icon"></span>*/}
+            <FaDice />
+            
           </button>
           <button
             className={`globe-toggle-btn ${showGlobe ? 'active' : ''}`}
