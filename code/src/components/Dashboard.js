@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Dashboard.css';
-import RainAnimation from './Animations';
+import {RainAnimation, SnowAnimation} from './Animations';
 import {WiDaySunny, WiCloud, WiRain, WiSnow, WiFog, WiStrongWind, WiHumidity, WiBarometer} from 'react-icons/wi';
 import {FaLocationArrow, FaSearch, FaGlobe, FaDice } from 'react-icons/fa';
 import GlobeComponent from './Globe';
@@ -223,6 +223,7 @@ function Dashboard({
           
           <div className="weather-card">
             {['rain','drizzle','thunderstorm'].includes((weather?.weather?.[0]?.main || '').toLowerCase()) && <RainAnimation />}
+            {['snow'].includes((weather?.weather?.[0]?.main || '').toLowerCase()) && <SnowAnimation />}
             <div className="weather-main">
               <div className="weather-location">
                 <h2 className="city-name">{weather.name}</h2>
