@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import './Dashboard.css';
 import {WiDaySunny, WiCloud, WiRain, WiSnow, WiFog, WiStrongWind, WiHumidity, WiBarometer} from 'react-icons/wi';
-import {FaLocationArrow, FaSearch} from 'react-icons/fa';
+import {FaLocationArrow, FaSearch, FaGlobe} from 'react-icons/fa';
+import GlobeComponent from './Globe';
 
 function Dashboard({
   onFetchWeather, // This is our new fetcher
   weather,        // Data now comes from props
   forecast,     // Data now comes from props
   loading,        // Data now comes from props
-  setLoading    // Get setLoading from Home
+  setLoading,    // Get setLoading from Home
+  recentLocations // Pass recent locations for globe markers
 }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showGlobe, setShowGlobe] = useState(false);
 
   // All state related to weather/forecast/loading is REMOVED
   // All fetching logic (useEffect, fetchWeatherByCoords) is REMOVED
@@ -76,6 +79,12 @@ function Dashboard({
         setLoading(false); // Reset loading on error
       }
     );
+  };
+
+  // Handle globe location selection
+  const handleGlobeLocationSelect = async (lat, lon) => {
+    setShowGlobe(false); // Close globe view after selection
+    await onFetchWeather(lat, lon, true);
   };
 
   const celsiusToFahrenheit = (celsius) => Math.round(celsius * (9/5) + 32);
@@ -144,6 +153,13 @@ function Dashboard({
             <FaLocationArrow />
             Use My Location
           </button>
+          <button
+            className={`globe-toggle-btn ${showGlobe ? 'active' : ''}`}
+            onClick={() => setShowGlobe(!showGlobe)}
+          >
+            <FaGlobe />
+            {showGlobe ? 'Hide Globe' : 'Show Globe'}
+          </button>
         </div>
       </div>
 
@@ -151,7 +167,16 @@ function Dashboard({
         <div className="loading">Loading weather data...</div>
       )}
 
-      {weather && !loading && (
+      {showGlobe && (
+        <div className="globe-section">
+          <GlobeComponent
+            onLocationSelect={handleGlobeLocationSelect}
+            recentLocations={recentLocations || []}
+          />
+        </div>
+      )}
+
+      {weather && !loading && !showGlobe && (
         <>
           <div className="weather-card">
             <div className="weather-main">
@@ -231,7 +256,7 @@ function Dashboard({
         </>
       )}
 
-      {!weather && !loading && (
+      {!weather && !loading && !showGlobe && (
         <div className="empty-state">
           {/*<div className="empty-icon weather-icon-clouds"></div>*/}
           <div className="empty-icon"><WiCloud /></div>
