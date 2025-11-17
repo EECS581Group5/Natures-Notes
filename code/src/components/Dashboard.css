@@ -17,6 +17,7 @@
   display: flex;
   gap: 15px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .search-form {
@@ -66,7 +67,7 @@
   background: #2a2a2a;
   color: #ffffff;
 }
-
+/*
 .search-icon {
   width: 20px;
   height: 20px;
@@ -95,7 +96,7 @@
   bottom: 0;
   right: 0;
   border-radius: 1px;
-}
+}*/
 
 .location-btn {
   display: flex;
@@ -117,6 +118,7 @@
   background: #00e05c;
 }
 
+/*
 .location-icon {
   width: 16px;
   height: 16px;
@@ -144,13 +146,20 @@
   border-radius: 50%;
   top: 3px;
   left: 4px;
-}
+}*/
 
 .loading {
   text-align: center;
   padding: 40px;
   color: #666;
   font-size: 16px;
+}
+
+.rain-animation {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  inset: 0;
 }
 
 .weather-card {
@@ -163,6 +172,18 @@
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+/* Ensure rain animation fills the inside of a weather card */
+.weather-card .rain-animation {
+  position: absolute;
+  inset: 0;
+  top: -21px;
+  left: 0;
+  height: 110%;
+  width: 110%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .weather-card::before {
@@ -183,7 +204,7 @@
   align-items: flex-start;
   margin-bottom: 20px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .weather-location {
@@ -246,6 +267,7 @@
 }
 
 /* Weather Icons */
+/*
 .weather-icon-clear::before {
   content: '';
   width: 40px;
@@ -331,8 +353,34 @@
   opacity: 0.7;
   box-shadow: 0 8px 0 currentColor, 0 16px 0 currentColor;
   border-radius: 2px;
+} */
+
+/* React Icon styling */
+.dashboard svg{
+  flex-shrink: 0;
 }
 
+.condition-icon svg{
+  font-size: 4rem;
+}
+
+.metric-icon svg {
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+.forecast-icon svg {
+  font-size: 2.2rem;
+  color: #ffffff;
+}
+
+.search-btn svg,
+.location-btn svg {
+  font-size: 1rem;
+  margin-right: 6px;
+}
+
+/* text in condition */
 .condition-main {
   font-size: 24px;
   font-weight: 600;
@@ -360,6 +408,7 @@
   text-align: center;
 }
 
+/*
 .metric-icon {
   width: 32px;
   height: 32px;
@@ -368,9 +417,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 /* Humidity icon (water droplet) */
+/*
 .icon-humidity::before {
   content: '';
   width: 16px;
@@ -381,6 +431,7 @@
 }
 
 /* Wind icon */
+/*
 .icon-wind::before {
   content: '';
   width: 24px;
@@ -403,6 +454,7 @@
 }
 
 /* Visibility icon (eye) */
+/*
 .icon-visibility::before {
   content: '';
   width: 28px;
@@ -425,6 +477,7 @@
 }
 
 /* Pressure icon (gauge) */
+/*
 .icon-pressure::before {
   content: '';
   width: 20px;
@@ -446,7 +499,7 @@
   left: 50%;
   transform: translateX(-50%);
   transform-origin: bottom;
-}
+} */
 
 .metric-label {
   font-size: 13px;
@@ -497,6 +550,7 @@
   font-weight: 500;
 }
 
+/*
 .forecast-icon {
   width: 36px;
   height: 36px;
@@ -505,7 +559,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .forecast-temp {
   font-size: 18px;
@@ -527,6 +581,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.empty-icon svg {
+  font-size: 5rem;
 }
 
 .empty-state h3 {
@@ -596,9 +654,14 @@
     margin-bottom: 15px;
   }
 
+  /*
   .condition-icon {
     width: 48px;
     height: 48px;
+  } */
+
+  .condition-icon svg {
+    font-size: 3rem;
   }
 
   .condition-main {
@@ -632,13 +695,94 @@
     padding: 10px 6px;
   }
 
+  /*
   .forecast-icon {
     width: 28px;
     height: 28px;
     margin: 6px auto;
+  }*/
+
+  .forecast-icon svg {
+    font-size: 1.8rem;
   }
 
   .forecast-temp {
     font-size: 16px;
+  }
+}
+
+/* Globe section styles */
+.globe-section {
+  width: 100%;
+  height: 600px;
+  margin: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Globe toggle button - imported from Globe.css for consistency */
+.globe-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #43B548 0%, #3A9E3F 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(67, 181, 72, 0.3);
+  min-width: fit-content;
+}
+
+.globe-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(67, 181, 72, 0.4);
+}
+
+.globe-toggle-btn.active {
+  background: linear-gradient(135deg, #FF5722 0%, #E64A19 100%);
+  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+}
+
+.globe-toggle-btn.active:hover {
+  box-shadow: 0 4px 12px rgba(255, 87, 34, 0.4);
+}
+
+.globe-toggle-btn svg {
+  font-size: 16px;
+}
+
+/* Responsive adjustments for globe */
+@media (max-width: 768px) {
+  .globe-section {
+    height: 400px;
+    margin: 15px 0;
+  }
+
+  .globe-toggle-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .globe-section {
+    height: 350px;
   }
 }
