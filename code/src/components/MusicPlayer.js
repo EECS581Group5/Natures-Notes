@@ -247,31 +247,33 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
 
   if (!currentTrack) {
     return (
-      <div className="music-player-bar">
-        <div className="player-left">
-          <div className="album-art">
-            <span className="music-icon"></span>
+      <div className="music-player-wrapper">
+        <div className="music-player-bar">
+          <div className="player-left">
+            <div className="album-art">
+              <span className="music-icon"></span>
+            </div>
+            <div className="track-info">
+              <div className="track-name">No track playing</div>
+              <div className="track-artist">Nature Sounds Collection</div>
+            </div>
           </div>
-          <div className="track-info">
-            <div className="track-name">No track playing</div>
-            <div className="track-artist">Nature Sounds Collection</div>
+          <div className="player-center">
+            <div className="player-controls">
+              <button className="control-btn prev-btn" disabled>
+                <span className="icon-prev"></span>
+              </button>
+              <button className="control-btn play-btn" disabled>
+                <span className="icon-play"></span>
+              </button>
+              <button className="control-btn next-btn" disabled>
+                <span className="icon-next"></span>
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="player-center">
-          <div className="player-controls">
-            <button className="control-btn prev-btn" disabled>
-              <span className="icon-prev"></span>
-            </button>
-            <button className="control-btn play-btn" disabled>
-              <span className="icon-play"></span>
-            </button>
-            <button className="control-btn next-btn" disabled>
-              <span className="icon-next"></span>
-            </button>
+          <div className="player-right">
+            <span className="playlist-info">Waiting for weather data...</span>
           </div>
-        </div>
-        <div className="player-right">
-          <span className="playlist-info">Waiting for weather data...</span>
         </div>
       </div>
     );
