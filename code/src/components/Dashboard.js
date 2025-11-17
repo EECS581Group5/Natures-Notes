@@ -10,6 +10,8 @@ function Dashboard({
   forecast,     // Data now comes from props
   loading,        // Data now comes from props
   setLoading,    // Get setLoading from Home
+  onSetWeather,
+  setForecast,
   recentLocations // Pass recent locations for globe markers
 }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,6 +24,34 @@ function Dashboard({
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
+
+    // --- EASTER EGG CHECK ---
+    if (searchQuery.toLowerCase().trim() === 'minesweeper') {
+      console.log("Easter Egg Activated!");
+      
+      // 1. Create a fake weather object that MusicPlayer will understand
+      const fakeWeather = {
+        weather: [{ main: 'Minesweeper' }],
+        name: 'Minesweeper',
+        main: { temp: -17.778, feels_like: -17.778, humidity: 0, pressure: 0 }, // Fake data
+        sys: { country: 'Team 5' },
+        coord: { lat: 0, lon: 0 },
+        wind: { speed: 0 },
+        visibility: 0
+      };
+      
+      // 2. Set the fake weather in the parent (Home.js)
+      onSetWeather(fakeWeather);
+      
+      // 3. Clear other states
+      setForecast(null); // Clear any existing forecast
+      setLoading(false); // Ensure loading is off
+      setSearchQuery(''); // Clear the search bar
+      
+      // 4. Stop the function here
+      return; 
+    }
+    // --- END OF EASTER EGG ---
 
     const key = process.env.REACT_APP_WEATHER_KEY;
     if (!key) {
