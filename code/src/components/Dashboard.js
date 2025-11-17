@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Dashboard.css';
+import RainAnimation from './Animations';
 
 function Dashboard({
   onFetchWeather, // This is our new fetcher
@@ -135,7 +136,9 @@ function Dashboard({
 
       {weather && !loading && (
         <>
+          
           <div className="weather-card">
+            {['rain','drizzle','thunderstorm'].includes((weather?.weather?.[0]?.main || '').toLowerCase()) && <RainAnimation />}
             <div className="weather-main">
               <div className="weather-location">
                 <h2 className="city-name">{weather.name}</h2>
@@ -151,7 +154,6 @@ function Dashboard({
                 </div>
               </div>
             </div>
-
             <div className="weather-condition">
               <span className={`condition-icon weather-icon-${getWeatherIcon(weather.weather[0].main)}`}></span>
               <div className="condition-text">

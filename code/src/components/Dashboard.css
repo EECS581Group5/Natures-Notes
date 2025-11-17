@@ -153,6 +153,13 @@
   font-size: 16px;
 }
 
+.rain-animation {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  inset: 0;
+}
+
 .weather-card {
   background: #2E7D32;
   border: 3px solid #43B548;
@@ -163,6 +170,18 @@
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+/* Ensure rain animation fills the inside of a weather card */
+.weather-card .rain-animation {
+  position: absolute;
+  inset: 0;
+  top: -21px;
+  left: 0;
+  height: 110%;
+  width: 110%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .weather-card::before {
@@ -183,7 +202,7 @@
   align-items: flex-start;
   margin-bottom: 20px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .weather-location {
