@@ -120,6 +120,9 @@ function Home() {
           forecast={forecast}
           loading={loading}
           setLoading={setLoading} // Allow Dashboard to set loading state
+          onSetWeather={setWeather} 
+          setForecast={setForecast}
+          recentLocations={recentSearches} // Pass recent locations for globe markers
         />
       </div>
       <MusicPlayer

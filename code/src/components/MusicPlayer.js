@@ -16,7 +16,7 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
   const fadeIntervalRef = useRef(null);
   const isPlayingRef = useRef(isPlaying);
   const hasInteractedRef = useRef(hasInteracted);
-
+  const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     isPlayingRef.current = isPlaying;
     hasInteractedRef.current = hasInteracted;
@@ -247,38 +247,42 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
 
   if (!currentTrack) {
     return (
-      <div className="music-player-bar">
-        <div className="player-left">
-          <div className="album-art">
-            <span className="music-icon"></span>
+      <div className="music-player-wrapper">
+        <div className="music-player-bar">
+          <div className="player-left">
+            <div className="album-art">
+              <span className="music-icon"></span>
+            </div>
+            <div className="track-info">
+              <div className="track-name">No track playing</div>
+              <div className="track-artist">Nature Sounds Collection</div>
+            </div>
           </div>
-          <div className="track-info">
-            <div className="track-name">No track playing</div>
-            <div className="track-artist">Nature Sounds Collection</div>
+          <div className="player-center">
+            <div className="player-controls">
+              <button className="control-btn prev-btn" disabled>
+                <span className="icon-prev"></span>
+              </button>
+              <button className="control-btn play-btn" disabled>
+                <span className="icon-play"></span>
+              </button>
+              <button className="control-btn next-btn" disabled>
+                <span className="icon-next"></span>
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="player-center">
-          <div className="player-controls">
-            <button className="control-btn prev-btn" disabled>
-              <span className="icon-prev"></span>
-            </button>
-            <button className="control-btn play-btn" disabled>
-              <span className="icon-play"></span>
-            </button>
-            <button className="control-btn next-btn" disabled>
-              <span className="icon-next"></span>
-            </button>
+          <div className="player-right">
+            <span className="playlist-info">Waiting for weather data...</span>
           </div>
-        </div>
-        <div className="player-right">
-          <span className="playlist-info">Waiting for weather data...</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="music-player-bar">
+    <div className={`music-player-wrapper ${expanded ? "expanded" : ""}`}>
+      <div className="music-player-bar">
+
       <audio
         ref={audioRef}
         src={currentTrack}
@@ -334,11 +338,31 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
       </div>
 
       <div className="player-right">
+        <button className="expand-btn" onClick={() => setExpanded(prev => !prev)}>{expanded ? "▼" : "▲"}
+        </button>
         <span className="weather-badge">{getWeatherCategory()} Weather</span>
         <span className="playlist-info">🎵 {currentPlaylist.length} tracks</span>
       </div>
     </div>
-  );
-}
+  {expanded && (
+  <div className="expanded-content">
+    <div className="expanded-section">
+      <h4>Now Playing</h4>
+      <p>{getTrackName(currentTrack)}</p>
+    </div>
+
+    <div className="expanded-section">
+      <h4>Playlist</h4>
+      <ul>
+        {currentPlaylist.map((track, i) => (
+          <li key={track} style={{ fontWeight: i === trackIndex ? "700" : "400" }}>
+            {getTrackName(track)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
+</div>);}
 
 export default MusicPlayer;

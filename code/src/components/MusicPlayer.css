@@ -1,6 +1,4 @@
 .music-player-bar {
-  position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
   height: 90px;
@@ -12,6 +10,34 @@
   padding: 0 20px;
   z-index: 300;
   color: white;
+}
+.expanded-content {
+  flex: 1;
+  background: #184a1c;
+  padding: 20px;
+  overflow-y: auto;
+  border-top: 1px solid #2f8f36;
+  color: white;
+}
+
+.expanded-section {
+  margin-bottom: 20px;
+}
+
+.expanded-section h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.expand-btn {
+  background: transparent;
+  border: 1px solid #4a4a4a;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .player-left {
@@ -303,6 +329,22 @@
   font-size: 13px;
   color: #a0a0a0;
   white-space: nowrap;
+}
+.music-player-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  max-height: 90px; /* collapsed height */
+  transition: max-height 0.3s ease;
+  pointer-events: auto;
+}
+
+.music-player-wrapper.expanded {
+  max-height: 400px;  /* height of expanded panel */
 }
 
 .help-btn {

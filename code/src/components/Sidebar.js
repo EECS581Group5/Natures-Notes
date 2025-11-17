@@ -66,7 +66,11 @@ function Sidebar({ recentSearches = [] }) {
           {user?.username?.substring(0, 2).toUpperCase() || 'AJ'}
         </div>
         <div className="user-info">
-          <div className="user-name">{user?.username || 'Alex Johnson'}</div>
+          <div className="user-name">
+            {(user?.username?.length > 12)
+              ? user.username.slice(0, 12) + "..."
+              : user?.username || "Alex Johnson"}
+          </div>
           <div className="user-badge">Premium User</div>
         </div>
 

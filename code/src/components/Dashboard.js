@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import './Dashboard.css';
 import RainAnimation from './Animations';
+import {WiDaySunny, WiCloud, WiRain, WiSnow, WiFog, WiStrongWind, WiHumidity, WiBarometer} from 'react-icons/wi';
+import {FaLocationArrow, FaSearch, FaGlobe} from 'react-icons/fa';
+import GlobeComponent from './Globe';
 
 function Dashboard({
   onFetchWeather, // This is our new fetcher
   weather,        // Data now comes from props
   forecast,     // Data now comes from props
   loading,        // Data now comes from props
-  setLoading    // Get setLoading from Home
+  setLoading,    // Get setLoading from Home
+  onSetWeather,
+  setForecast,
+  recentLocations // Pass recent locations for globe markers
 }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showGlobe, setShowGlobe] = useState(false);
 
   // All state related to weather/forecast/loading is REMOVED
   // All fetching logic (useEffect, fetchWeatherByCoords) is REMOVED
@@ -18,6 +25,34 @@ function Dashboard({
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
+
+    // --- EASTER EGG CHECK ---
+    if (searchQuery.toLowerCase().trim() === 'minesweeper') {
+      console.log("Easter Egg Activated!");
+      
+      // 1. Create a fake weather object that MusicPlayer will understand
+      const fakeWeather = {
+        weather: [{ main: 'Minesweeper' }],
+        name: 'Minesweeper',
+        main: { temp: -17.778, feels_like: -17.778, humidity: 0, pressure: 0 }, // Fake data
+        sys: { country: 'Team 5' },
+        coord: { lat: 0, lon: 0 },
+        wind: { speed: 0 },
+        visibility: 0
+      };
+      
+      // 2. Set the fake weather in the parent (Home.js)
+      onSetWeather(fakeWeather);
+      
+      // 3. Clear other states
+      setForecast(null); // Clear any existing forecast
+      setLoading(false); // Ensure loading is off
+      setSearchQuery(''); // Clear the search bar
+      
+      // 4. Stop the function here
+      return; 
+    }
+    // --- END OF EASTER EGG ---
 
     const key = process.env.REACT_APP_WEATHER_KEY;
     if (!key) {
@@ -77,12 +112,32 @@ function Dashboard({
     );
   };
 
+  // Handle globe location selection
+  const handleGlobeLocationSelect = async (lat, lon) => {
+    setShowGlobe(false); // Close globe view after selection
+    await onFetchWeather(lat, lon, true);
+  };
+
   const celsiusToFahrenheit = (celsius) => Math.round(celsius * (9/5) + 32);
 
+  const getWeatherReactIcon = (main) => {
+    switch(main){
+      case 'Clear': return <WiDaySunny />;
+      case 'Clouds': return <WiCloud />;
+      case 'Rain': return <WiRain />;
+      case 'Snow': return <WiSnow />;
+      case 'Mist':
+      case 'Fog': return <WiFog />;
+      case 'Thunderstorm':
+      case 'Drizzle': return <WiRain />;
+      default: return <WiCloud />;
+    };
+  };
+  /*
   const getWeatherIcon = (main) => {
     // Return class name instead of emoji
     const iconMap = {
-      Clear: 'clear',
+      Clear: 'clear', 
       Clouds: 'clouds',
       Rain: 'rain',
       Snow: 'snow',
@@ -92,7 +147,7 @@ function Dashboard({
       Fog: 'mist'
     };
     return iconMap[main] || 'clouds';
-  };
+  };*/
 
   const formatTime = (timestamp) => {
     const date = new Date(timestamp * 1000);
@@ -120,12 +175,21 @@ function Dashboard({
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button type="submit" className="search-btn">
-              <span className="search-icon"></span>
+              {/*<span className="search-icon"></span>*/}
+              <FaSearch />
             </button>
           </form>
           <button className="location-btn" onClick={handleUseMyLocation}>
-            <span className="location-icon"></span>
+            {/*<span className="location-icon"></span>*/}
+            <FaLocationArrow />
             Use My Location
+          </button>
+          <button
+            className={`globe-toggle-btn ${showGlobe ? 'active' : ''}`}
+            onClick={() => setShowGlobe(!showGlobe)}
+          >
+            <FaGlobe />
+            {showGlobe ? 'Hide Globe' : 'Show Globe'}
           </button>
         </div>
       </div>
@@ -134,7 +198,16 @@ function Dashboard({
         <div className="loading">Loading weather data...</div>
       )}
 
-      {weather && !loading && (
+      {showGlobe && (
+        <div className="globe-section">
+          <GlobeComponent
+            onLocationSelect={handleGlobeLocationSelect}
+            recentLocations={recentLocations || []}
+          />
+        </div>
+      )}
+
+      {weather && !loading && !showGlobe && (
         <>
           
           <div className="weather-card">
@@ -155,7 +228,10 @@ function Dashboard({
               </div>
             </div>
             <div className="weather-condition">
-              <span className={`condition-icon weather-icon-${getWeatherIcon(weather.weather[0].main)}`}></span>
+              {/*<span className={`condition-icon weather-icon-${getWeatherIcon(weather.weather[0].main)}`}></span>*/}
+              <div>
+                {getWeatherReactIcon(weather.weather[0].main)}
+              </div>
               <div className="condition-text">
                 <div className="condition-main">{weather.weather[0].main}</div>
                 <div className="condition-desc">{weather.weather[0].description}</div>
@@ -164,22 +240,26 @@ function Dashboard({
 
             <div className="weather-metrics">
               <div className="metric">
-                <div className="metric-icon icon-humidity"></div>
+                {/*<div className="metric-icon icon-humidity"></div>*/}
+                <div className="metric-icon"><WiHumidity /></div>
                 <div className="metric-label">Humidity</div>
                 <div className="metric-value">{weather.main.humidity}%</div>
               </div>
               <div className="metric">
-                <div className="metric-icon icon-wind"></div>
+                {/*<div className="metric-icon icon-wind"></div>*/}
+                <div className="metric-icon"><WiStrongWind /></div>
                 <div className="metric-label">Wind</div>
                 <div className="metric-value">{Math.round(weather.wind.speed * 2.237)} mph</div>
               </div>
               <div className="metric">
-                <div className="metric-icon icon-visibility"></div>
+                {/*<div className="metric-icon icon-visibility"></div>*/}
+                <div className="metric-icon"><WiFog /></div>
                 <div className="metric-label">Visibility</div>
                 <div className="metric-value">{Math.round(weather.visibility / 1609)} mi</div>
               </div>
               <div className="metric">
-                <div className="metric-icon icon-pressure"></div>
+                {/*<div className="metric-icon icon-pressure"></div>*/}
+                <div className="metric-icon"><WiBarometer /></div>
                 <div className="metric-label">Pressure</div>
                 <div className="metric-value">{weather.main.pressure} mb</div>
               </div>
@@ -194,7 +274,10 @@ function Dashboard({
                   <div className="forecast-time">
                     {index === 0 ? 'Now' : formatTime(hour.dt)}
                   </div>
-                  <div className={`forecast-icon weather-icon-${getWeatherIcon(hour.weather[0].main)}`}></div>
+                  {/*<div className={`forecast-icon weather-icon-${getWeatherIcon(hour.weather[0].main)}`}></div>*/}
+                  <div className='forcast-icon'>
+                    {getWeatherReactIcon(hour.weather[0].main)}
+                  </div>
                   <div className="forecast-temp">
                     {celsiusToFahrenheit(hour.main.temp)}°
                   </div>
@@ -205,9 +288,10 @@ function Dashboard({
         </>
       )}
 
-      {!weather && !loading && (
+      {!weather && !loading && !showGlobe && (
         <div className="empty-state">
-          <div className="empty-icon weather-icon-clouds"></div>
+          {/*<div className="empty-icon weather-icon-clouds"></div>*/}
+          <div className="empty-icon"><WiCloud /></div>
           <h3>Search for a location</h3>
           <p>Enter a city name or coordinates to get started</p>
         </div>
