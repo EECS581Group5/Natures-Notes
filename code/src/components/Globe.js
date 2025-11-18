@@ -14,7 +14,6 @@ const GlobeComponent = ({ onLocationSelect, recentLocations = [] }) => {
       id: `marker-${index}`,
       lat: loc.latitude,
       lng: loc.longitude,
-      label: loc.city_name || `${loc.latitude.toFixed(2)}, ${loc.longitude.toFixed(2)}`,
       color: '#43B548',
       size: 0.5,
       altitude: 0.01
