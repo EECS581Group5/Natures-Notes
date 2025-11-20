@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Dashboard.css';
-import {RainAnimation, SnowAnimation} from './Animations';
+import {RainAnimation, SnowAnimation, FogAnimation } from './Animations';
 import {WiDaySunny, WiCloud, WiRain, WiSnow, WiFog, WiStrongWind, WiHumidity, WiBarometer} from 'react-icons/wi';
 import {FaLocationArrow, FaSearch, FaGlobe, FaDice } from 'react-icons/fa';
 import GlobeComponent from './Globe';
@@ -140,14 +140,15 @@ function Dashboard({
     };
   };
 
-  // Get the appropriate weather animation
-  const getWeatherAnimation = (main) => {
-    switch(main){
-      case 'Rain': return <RainAnimation />;
-      case 'Drizzle': return <RainAnimation />;
-      case 'Thunderstorm': return <RainAnimation />;
-      case 'Snow': return <SnowAnimation />;
-
+  // Get the appropriate weather animation based on weather ID
+  const getWeatherAnimation = (weather_id) => {
+    let msd_id = Math.floor(weather_id / 100); //Get the first digit of weather ID
+    switch(msd_id){
+      case 2: return <RainAnimation /> //Thunderstorm
+      case 3: return <RainAnimation /> //Drizzle
+      case 5: return <RainAnimation /> //Rain
+      case 6: return <SnowAnimation /> //Snow
+      case 7: return <FogAnimation /> //Atmosphere (Mist, Smoke, Haze, etc.)
       default: return null;
     }
   }
@@ -235,7 +236,7 @@ function Dashboard({
         <>
           
           <div className="weather-card">
-            {getWeatherAnimation(weather.weather[0].main)}
+            {getWeatherAnimation(weather.weather[0].id)}
             <div className="weather-main">
               <div className="weather-location">
                 <h2 className="city-name">{weather.name}</h2>

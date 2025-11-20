@@ -2,6 +2,7 @@ import React from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import rainLottie from "../lottieAnimations/Rain background animation.lottie";
 import snowLottie from "../lottieAnimations/Snow Off white.lottie";
+import fogLottie from "../lottieAnimations/Fog  Smoke.lottie"; // There are two spaces between Fog and Smoke in the filename. Why?? IDK
 
 function RainAnimation() {
     return (
@@ -27,4 +28,17 @@ function SnowAnimation() {
     );
 };
 
-export { RainAnimation, SnowAnimation };
+function FogAnimation() {
+    return (
+        <DotLottieReact
+            src={fogLottie}
+            loop
+            autoplay
+            style={{ width: '100%', height: '100%' }}
+            className="fog-animation"
+        />
+    );
+};
+
+
+export { RainAnimation, SnowAnimation, FogAnimation };

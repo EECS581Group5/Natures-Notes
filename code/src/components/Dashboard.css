@@ -169,6 +169,13 @@
   inset: 0;
 }
 
+.fog-animation {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  inset: 0;
+}
+
 .weather-card {
   background: #2E7D32;
   border: 3px solid #43B548;
