@@ -376,7 +376,8 @@
 
 /* React Icon styling */
 .dashboard svg{
-  flex-shrink: 0;
+  /*flex-shrink: 0;*/
+  font-size: 3rem;
 }
 
 .condition-icon svg{
