@@ -17,6 +17,9 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
   const isPlayingRef = useRef(isPlaying);
   const hasInteractedRef = useRef(hasInteracted);
   const [expanded, setExpanded] = useState(false);
+  const PLAYLIST_KEYS = Object.keys(MUSIC_LIBRARY || {});
+  const [playlists] = useState(PLAYLIST_KEYS);
+  const [selectedPlaylistKey, setSelectedPlaylistKey] = useState(PLAYLIST_KEYS[0] || null);
   useEffect(() => {
     isPlayingRef.current = isPlaying;
     hasInteractedRef.current = hasInteracted;
@@ -245,6 +248,48 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
     return weather.weather[0].main;
   };
 
+
+  useEffect(() => {
+    if (!weather || !weather.weather || !weather.weather[0]) return;
+    const cat = weather.weather[0].main;
+    if (cat && MUSIC_LIBRARY[cat]) {
+      setSelectedPlaylistKey(cat);
+    }
+  }, [weather]);
+
+  // User clicked a playlist name — show its songs
+  const handleSelectPlaylist = (key) => {
+    setSelectedPlaylistKey(key);
+  };
+
+  // User clicked a specific song in a playlist — set playlist and play that song
+  const handlePlaySong = (key, index) => {
+    const tracks = MUSIC_LIBRARY[key] || [];
+    if (tracks.length === 0) return;
+
+    // Set playlist and track index
+    setCurrentPlaylist(tracks);
+    setTrackIndex(index);
+    setSelectedPlaylistKey(key);
+    setExpanded(true);
+
+    // Mark that the user interacted, then trigger fade-in play after state updates
+    setHasInteracted(true);
+    setIsPlaying(true);
+
+    // Wait a tick for audio src to update in the DOM, then load and fade-in
+    setTimeout(() => {
+      if (audioRef.current) {
+        try {
+          audioRef.current.load();
+        } catch (e) {
+          // ignore
+        }
+        fadeAudio('in');
+      }
+    }, 50);
+  };
+
   if (!currentTrack) {
     return (
       <div className="music-player-wrapper">
@@ -345,24 +390,46 @@ function MusicPlayer({ weather, onSongEnd, checkInterval = 30*60*1000 }) {
       </div>
     </div>
   {expanded && (
-  <div className="expanded-content">
-    <div className="expanded-section">
-      <h4>Now Playing</h4>
-      <p>{getTrackName(currentTrack)}</p>
-    </div>
+    <div className="expanded-content">
+      <div className="expanded-playlists">
+        <div className="playlist-list">
+          <h4>Playlists</h4>
+          <ul>
+            {playlists.map((key) => (
+              <li key={key}>
+                <button
+                  className={`playlist-item ${selectedPlaylistKey === key ? 'active' : ''}`}
+                  onClick={() => handleSelectPlaylist(key)}
+                >
+                  {key}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-    <div className="expanded-section">
-      <h4>Playlist</h4>
-      <ul>
-        {currentPlaylist.map((track, i) => (
-          <li key={track} style={{ fontWeight: i === trackIndex ? "700" : "400" }}>
-            {getTrackName(track)}
-          </li>
-        ))}
-      </ul>
+        <div className="playlist-tracks">
+          <h4>Songs</h4>
+          <ul>
+            {(MUSIC_LIBRARY[selectedPlaylistKey] || []).map((track, i) => {
+              const isCurrent = currentTrack === track;
+              return (
+                <li key={track}>
+                  <button
+                    className={`track-item ${isCurrent ? 'playing' : ''}`}
+                    onClick={() => handlePlaySong(selectedPlaylistKey, i)}
+                  >
+                    <span className="track-name-small">{getTrackName(track)}</span>
+                    {isCurrent && <span className="now-indicator"> ▶</span>}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
-)}
+  )}
 </div>);}
 
 export default MusicPlayer;

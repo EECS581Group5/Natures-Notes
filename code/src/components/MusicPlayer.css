@@ -32,6 +32,73 @@
   font-weight: bold;
 }
 
+.expanded-playlists {
+  display: flex;
+  gap: 20px;
+}
+
+.playlist-list,
+.playlist-tracks {
+  flex: 1;
+  min-width: 0;
+}
+
+.playlist-list ul,
+.playlist-tracks ul {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.playlist-item {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(0,0,0,0.08);
+  color: #eafbea;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.playlist-item.active {
+  background: linear-gradient(90deg, rgba(0,200,83,0.16), rgba(0,200,83,0.06));
+  border-color: rgba(0,200,83,0.25);
+  font-weight: 700;
+}
+
+.track-item {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.04);
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.track-item.playing {
+  background: rgba(0,200,83,0.06);
+  border-color: rgba(0,200,83,0.18);
+}
+
+.track-name-small {
+  font-size: 13px;
+  color: #f1fdf2;
+}
+
+.now-indicator {
+  color: #00c853;
+  font-weight: 700;
+}
+
 .expand-btn {
   background: transparent;
   border: 1px solid #4a4a4a;
