@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Dashboard.css';
-import {RainAnimation, SnowAnimation, FogAnimation } from './Animations';
+import {RainAnimation, SnowAnimation, FogAnimation, CloudsAnimation } from './Animations';
 import {WiDaySunny, WiCloud, WiRain, WiSnow, WiFog, WiStrongWind, WiHumidity, WiBarometer} from 'react-icons/wi';
 import {FaLocationArrow, FaSearch, FaGlobe, FaDice } from 'react-icons/fa';
 import GlobeComponent from './Globe';
@@ -149,6 +149,11 @@ function Dashboard({
       case 5: return <RainAnimation /> //Rain
       case 6: return <SnowAnimation /> //Snow
       case 7: return <FogAnimation /> //Atmosphere (Mist, Smoke, Haze, etc.)
+      case 8:
+        if(weather_id !== 800){
+          return <CloudsAnimation /> //Clouds
+        }
+        return null; //Clear
       default: return null;
     }
   }
