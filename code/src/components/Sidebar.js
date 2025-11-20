@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
-function Sidebar({ recentSearches = [] }) {
+function Sidebar({ recentSearches = [], onSelectRecent = null }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -107,14 +107,26 @@ function Sidebar({ recentSearches = [] }) {
         <div className="search-list">
           {recentSearches.length > 0 ? (
             recentSearches.map((search) => (
-              <div key={search.id} className="search-item">
+              <button
+                key={search.id}
+                className="search-item search-button"
+                onClick={async () => {
+                  // If parent provided a handler, call it to fetch/navigate to that location
+                  if (onSelectRecent && search.latitude != null && search.longitude != null) {
+                    // Allow parent to handle fetching/saving
+                    await onSelectRecent(search.latitude, search.longitude);
+                  }
+                  // Also navigate to dashboard/main view
+                  navigate('/');
+                }}
+              >
                 <div className="search-location">
                   <span className="location-name">
                     {search.city_name || formatLocation(search.latitude, search.longitude)}
                   </span>
                 </div>
                 <div className="search-time">{formatTimeAgo(search.accessed_at)}</div>
-              </div>
+              </button>
             ))
           ) : (
             <div className="no-searches">No recent searches</div>

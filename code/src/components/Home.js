@@ -108,9 +108,15 @@ function Home() {
     }
   }, [currentLocation, fetchWeatherByCoords]); // Re-create if location or fetcher changes
 
+  // Handler passed to Sidebar so clicking a recent search triggers a fetch
+  const handleSelectRecent = async (lat, lon) => {
+    // Fetch weather for the selected recent location and save it
+    await fetchWeatherByCoords(lat, lon, true);
+  };
+
   return (
     <div className="home-layout">
-      <Sidebar recentSearches={recentSearches} />
+      <Sidebar recentSearches={recentSearches} onSelectRecent={handleSelectRecent} />
       <div className="main-content">
         <Dashboard
           // Pass the fetcher function down
