@@ -139,6 +139,19 @@ function Dashboard({
       default: return <WiCloud />;
     };
   };
+
+  // Get the appropriate weather animation
+  const getWeatherAnimation = (main) => {
+    switch(main){
+      case 'Rain': return <RainAnimation />;
+      case 'Drizzle': return <RainAnimation />;
+      case 'Thunderstorm': return <RainAnimation />;
+      case 'Snow': return <SnowAnimation />;
+
+      default: return null;
+    }
+  }
+
   /*
   const getWeatherIcon = (main) => {
     // Return class name instead of emoji
@@ -222,8 +235,7 @@ function Dashboard({
         <>
           
           <div className="weather-card">
-            {['rain','drizzle','thunderstorm'].includes((weather?.weather?.[0]?.main || '').toLowerCase()) && <RainAnimation />}
-            {['snow'].includes((weather?.weather?.[0]?.main || '').toLowerCase()) && <SnowAnimation />}
+            {getWeatherAnimation(weather.weather[0].main)}
             <div className="weather-main">
               <div className="weather-location">
                 <h2 className="city-name">{weather.name}</h2>
